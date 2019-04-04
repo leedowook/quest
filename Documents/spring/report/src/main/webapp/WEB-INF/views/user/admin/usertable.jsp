@@ -35,8 +35,6 @@
 			user.enable="${list.enable}";
 			userList.push(user);
 		</c:forEach>
-  		
-  		
 		var userCount =<c:out value="${userCount}"/>
 		
 		console.log(userList);

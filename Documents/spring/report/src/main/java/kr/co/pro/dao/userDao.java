@@ -9,10 +9,10 @@ public interface userDao {
 
 	public int userRegister(userVo user);
 	public void userAthority(userVo user);
-	public userVo userInfo();
 	public List<userVo> userList();
-	public int userInfo(String user_ID);
+	public userVo userInfo(String user_ID);
 	public int userCount();
+	public int idOverlap(String id);
 	
 
 }

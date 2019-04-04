@@ -17,7 +17,10 @@
 	<select id="userCount" resultType="int">
 	select count(*) from user
 	</select>
-	<select id="userPwCheck" parameterType="string" resultType="String">
-	select user_pw from user where user_ID=#{user_ID} 
+	<select id="idOverlap" parameterType="int" resultType="string">
+	select count(*) from user where user_ID=#{id} 
 	</select>
+	<update id="userUpdate" parameterType="user">
+	 update 
+	</update>
 </mapper>

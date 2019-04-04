@@ -38,8 +38,8 @@ public class userService {
 		return model;
 	}
 	
-	public void idOverlap() {
-		
+	public void idOverlap(String id,int result) {
+		result=dao.idOverlap(id);
 		
 	}
 	public ModelAndView getTableInfo(ModelAndView model) {
@@ -48,6 +48,11 @@ public class userService {
 		model.addObject("userCount",dao.userCount());
 		model.setViewName("user/admin/usertable");
 		
+		return model;
+	}
+
+	public ModelAndView userInfo(String id, ModelAndView model) {
+		model.addObject(dao.userInfo(id));
 		return model;
 	}
 }

@@ -48,13 +48,13 @@
             <div class="form-row">
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input type="text" name="user_name" id="user_name" class="form-control" placeholder="user_name" required="required" autofocus="autofocus">
+                  <input type="text" name="user_name" value="${user_name}" id="user_name" class="form-control" placeholder="user_name" required="required" autofocus="autofocus">
                   <label for="user_name">이름</label>
                 </div>
               </div>
               <div class="col-md-6" id="userIdDiv">
                 <div class="form-label-group">
-                  <input type="text" name="user_id" id="user_id" class="form-control" placeholder="user_id" required="required" onchange="idOverlap()">
+	              <input type="text" name="user_id" value="${user_id}" id="user_id" class="form-control" placeholder="user_id" required="required" onchange="idOverlap()">
                   <label for="user_id">ID</label>
                 </div>
               </div>
@@ -64,14 +64,8 @@
             <div class="form-row">
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input type="password" name="user_pw" id="user_pw" class="form-control" placeholder="user_pw" required="required">
+                  <input type="password" name="user_pw" value="${user_pw}" id="user_pw" class="form-control" placeholder="user_pw" required="required">
                   <label for="user_pw">비밀번호</label>
-                </div>
-              </div>
-              <div class="col-md-6" id="confirmpwd">
-                <div class="form-label-group">
-                  <input type="password"   id="confirmpwd" class="form-control" placeholder="confirmpwd" required="required" onkeypress="pwCheck()">
-                  <label for="confirmpwd">비밀번호 확인</label>
                 </div>
               </div>
             </div>
@@ -80,7 +74,7 @@
             <div class="form-row">
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input type="text" name="user_phone" id="user_phone" class="form-control" placeholder="user_phone" required="required">
+                  <input type="text" name="user_phone" value="${user_phone} id="user_phone" class="form-control" placeholder="user_phone" required="required">
                   <label for="user_phone">연락처</label>
                 </div>
               </div>

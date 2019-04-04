@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import kr.co.pro.vo.*;
 import kr.co.pro.service.userService;
@@ -27,13 +29,13 @@ public class userController {
 	@GetMapping("/loginhome")
 	public  String loginHome(Principal principal) {
 		
-		System.out.println("·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿");
+		System.out.println("ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½");
 		return "user/normal/login";
 	}
 	
 	@GetMapping("/register")
 	public  String register() {
-		System.out.println("È¸¿øÁ¤º¸ µî·ÏÆäÀÌÁö ÀÌµ¿ ");
+		System.out.println("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ");
 		
 		return "user/admin/register";
 	}
@@ -45,14 +47,24 @@ public class userController {
 		return model;
 	}
 	
+	@PostMapping("/registerModify")
+	public ModelAndView registerModify(@ModelAttribute String id,ModelAndView model){
+		
+		model=userser.userInfo(id, model);
+		model.setViewName("user/admin/registerChange");
+		return model;
+	}
+	
 	
 	@PostMapping("/idOverlap")
-	public void Overlap(){
-		userser.idOverlap();
+	@ResponseBody
+	public int Overlap(@RequestParam("id") String id,int result){
+		userser.idOverlap(id,result);
+		return result;
 	}
 	@GetMapping("/list")
 	public ModelAndView list(ModelAndView model) {
-		System.out.println("È¸¿ø ¸®½ºÆ® Ãâ·Â ÆäÀÌÁö·Î ÀÌµ¿ ");
+		System.out.println("È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ");
 		userser.getTableInfo(model);
 		return model;
 		
