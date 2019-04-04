@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.pro.dao.userDao">
+	<insert id="userRegister" parameterType="user" >
+		insert into user values(#{user_id},#{user_pw},#{user_name},#{user_phone},#{user_crdate},1)
+	</insert>
+	<insert id="userAthority" parameterType="user">
+		insert into authority values(#{user_id},'Role_user')
+	
+	</insert>
+	<select id="userList" resultType="user">
+	select * from user 
+	</select>
+	<select id="userInfo" parameterType="string" resultType="user">
+	select * from user where user_ID=#{user_ID} 
+	</select>
+	<select id="userCount" resultType="int">
+	select count(*) from user
+	</select>
+	<select id="userPwCheck" parameterType="string" resultType="String">
+	select user_pw from user where user_ID=#{user_ID} 
+	</select>
+</mapper>
