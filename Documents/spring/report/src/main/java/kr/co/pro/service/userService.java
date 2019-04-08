@@ -38,8 +38,10 @@ public class userService {
 		return model;
 	}
 	
-	public void idOverlap(String id,int result) {
-		result=dao.idOverlap(id);
+	public int idOverlap(String id) {
+		int result=dao.idOverlap(id);
+		System.out.println(result+"id"+id);
+		return result;
 		
 	}
 	public ModelAndView getTableInfo(ModelAndView model) {
@@ -50,9 +52,25 @@ public class userService {
 		
 		return model;
 	}
-
+	public void userModify(userVo user) {
+		if(user.getUser_pw()==null) {
+			
+		}else {
+			user.setUser_pw(passwordEncoder.encode(user.getUser_pw()));
+			dao.userUpdatePw(user);
+		}
+		System.out.println("확인service"+user.getUser_name());
+		System.out.println("확인service2"+user.getUser_id());
+		dao.userUpdate(user);
+	}
 	public ModelAndView userInfo(String id, ModelAndView model) {
-		model.addObject(dao.userInfo(id));
+		model.addObject("user",dao.userInfo(id));
 		return model;
+	}
+
+	public void userDelete(String id) {
+		dao.authorityDelete(id);
+		dao.userDelete(id);
+		
 	}
 }

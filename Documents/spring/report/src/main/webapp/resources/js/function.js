@@ -1,58 +1,78 @@
 date();
 var check=[0,0];
-var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
-var csrfToken = $("meta[name='_csrf']").attr("content"); 
-var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-data[csrfParameter] = csrfToken;
-data["institutionId"] = option;
-headers[csrfHeader] = csrfToken; 
-
+var csrf_token = $('input[name=_csrf]').val();
 
 function date(){
 document.getElementById('user_crdate').value= new Date().toISOString().slice(0, 10);
 }
 
-function pwCheck(){
+function pwdCheck(i){
 	var pw=$("#user_pw").val();
-	var pwcheck=$("#confirmpwd").val();
+	var pwcheck=$("#confirmpw").val();
+	pw=pw.replace(/\s/gi,"");
+	pwcheck=pwcheck.replace(/\s/gi,"");
+	if(i==1){
+	
 	if(pw===pwcheck){
-		$("#confirmpwd").removeClass(" is-invalid");
-		$("#confirmpwd").addClass(" is-valid");
+		$("#confirmpw").removeClass(" is-invalid");
+		$("#confirmpw").addClass(" is-valid");
 		check[1]=1;
 	}else if(pw!==pwcheck){
-		$("#confirmpwd").removeClass(" is-valid");
-		$("#confirmpwd").addClass(" is-invalid");
+		$("#confirmpw").removeClass(" is-valid");
+		$("#confirmpw").addClass(" is-invalid");
 		check[1]=0;
+	}}else if(i===0){
+		if(pwcheck!==null){
+			if(pw===pwcheck){
+				$("#confirmpw").removeClass(" is-invalid");
+				$("#confirmpw").addClass(" is-valid");
+				check[1]=1;
+			}else if(pw!==pwcheck){
+				$("#confirmpw").removeClass(" is-valid");
+				$("#confirmpw").addClass(" is-invalid");
+				check[1]=0;
+			}
+		}
+		
 	}
-	
-}
-function passwordChange(){
-	var pw=prompt("입력");
 	
 }
 
 function idOverlap(){
-	var id=$("user_id").val();
+	var id=$("#user_id").val();
+	id=id.replace(/\s/gi,"");
+	if(id!=null&&id!=""){
 	$.ajax({
-		type:"post",
+		type:"get",
 		dataType:"text",
-		data:id,
+		data: {"id":id},
 		url:"/pro/User/idOverlap",
 		contentType:"Application/text;charset=UTF-8",
-			success:function(data){
-				 if(data.isExist){
-					 console.log("불러오기 실패사용불가");
+        success:function(data){
+			 if(data.isExist){
+				 console.log("불러오기 실패사용불가");
+			 }else{
+				 if(data>0){
+					 console.log("곂침"+data);
+					 $("#user_id").removeClass(" is-valid");
+					 $("#user_id").addClass(" is-invalid");
+					 check[0]=0;
 				 }else{
-					 if(data>0){
-						 $("#user_id").removeClass(" is-valid");
-						 $("#user_id").addClass(" is-invalid");
-						 check[0]=0;
-					 }else{
-						 $("#user_id").removeClass(" is-invalid");
-						 $("#user_id").addClass(" is-valid");
-						 check[0]=1;
-					 }
-				 }}});
+					 console.log("안곂침"+data);
+					 $("#user_id").removeClass(" is-invalid");
+					 $("#user_id").addClass(" is-valid");
+					 check[0]=1;
+				 }
+			 }},
+        error: function (textStatus, errorThrown)
+        {
+               alert(errorThrown + " " + textStatus);
+        }
+		});}else{
+			 $("#user_id").removeClass(" is-invalid");
+			 $("#user_id").addClass(" is-invalid");
+			 check[0]=0;
+		}
 	
 	
 }

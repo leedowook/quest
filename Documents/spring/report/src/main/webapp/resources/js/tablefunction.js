@@ -6,35 +6,41 @@ table()
 function paging(){
 	
 }
-function getTableInfo(){
-	$.ajax({
-		type:"post",
-		dataType:"text",
-		data:page,
-		url:"user.getTablInfo",
-		contentType:"Application/json;charset=UTF-8",
-			success:function(data){
-				 if(data.isExist){
-					 console.log("불러오기 실패사용불가");
-				 }else{
-					 
-				 }}});
-	
-}
+
 function table(){
-	alert("체크"+userList.length);
+	
 	for(var i=0;i<userList.length;i++){
 	if(userList[i].enable!='1'){
 		userList[i].enable="허용";
 	}else{userList[i].enable="차단"}
-	alert("작동중"+i);
+	var modify="modifyPage('"+userList[i].user_id+"')";
+	var deleteuser="deleteuser('"+userList[i].user_id+"')";
 	$("#userTbody").append("<tr>"+
-			"<td>"+userList[i].user_id+"</td>" +
+			"<td><a class='btn'  onclick="+modify+">"+userList[i].user_id+"</a></td>" +
 			"<td>"+userList[i].user_name+"</td>"+
 			"<td>"+userList[i].user_phone+"</td>"+
 			"<td>"+userList[i].user_crdate+"</td>"+
 			"<td>"+userList[i].enable+"</td>"+
+			"<td><a class='btn btn-primary btn-block' onclick="+deleteuser+">회원삭제</a></td>"+
 			"</tr>");}
 	
 	
+}
+function deleteuser(id){
+	alert("삭제확인용"+id);
+	document.getElementById("id_modify").value=id;
+
+	document.getElementById("Modify").method="post";
+	document.getElementById("Modify").action="/pro/User/userdelete";
+	document.getElementById("Modify").submit();
+}
+function modifyPage(id){
+	
+	
+	document.getElementById("id_modify").value=id;
+	
+	alert(id);
+	document.getElementById("Modify").method="get";
+	document.getElementById("Modify").action="/pro/User/registerModify";
+	document.getElementById("Modify").submit();
 }

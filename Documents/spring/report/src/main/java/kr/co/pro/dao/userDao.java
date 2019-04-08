@@ -13,6 +13,9 @@ public interface userDao {
 	public userVo userInfo(String user_ID);
 	public int userCount();
 	public int idOverlap(String id);
-	
+	public void userUpdate(userVo user);
+	public void userUpdatePw(userVo user);
+	public void userDelete(String id);
+	public void authorityDelete(String id);
 
 }

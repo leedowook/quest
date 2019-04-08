@@ -17,10 +17,20 @@
 	<select id="userCount" resultType="int">
 	select count(*) from user
 	</select>
-	<select id="idOverlap" parameterType="int" resultType="string">
+	<select id="idOverlap" parameterType="String" resultType="int">
 	select count(*) from user where user_ID=#{id} 
 	</select>
 	<update id="userUpdate" parameterType="user">
-	 update 
+	 UPDATE user SET user_name=#{user_name},user_crdate=#{user_crdate},user_phone=#{user_phone} WHERE user_id=#{user_id}
 	</update>
+	<update id="userUpdatePw" parameterType="user">
+	 UPDATE user SET user_pw=#{user_pw} WHERE user_id=#{user_id}
+	</update>
+	
+	<delete id="userDelete" parameterType="string">
+		DELETE FROM user WHERE user_id=#{user_id}
+	</delete>
+	<delete id="authorityDelete" parameterType="string">
+		DELETE FROM authority WHERE user_id=#{user_id}
+	</delete>
 </mapper>

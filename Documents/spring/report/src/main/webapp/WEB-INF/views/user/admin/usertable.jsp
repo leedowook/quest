@@ -29,7 +29,7 @@
 			var user=new Object();
 			user.user_id="${list.user_id}";
 			user.user_pw="${list.user_pw}";
-			user.user_name="${list.user_id}";
+			user.user_name="${list.user_name}";
 			user.user_phone="${list.user_phone}";
 			user.user_crdate="${list.user_crdate}";
 			user.enable="${list.enable}";
@@ -58,12 +58,15 @@
         </ol>
       
     <!-- DataTables Example -->
+    
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
             Data Table Example</div>
+           
           <div class="card-body">
             <div class="table-responsive">
+            <form action="/pro/User/registerModify" method="get" id="Modify">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
@@ -72,6 +75,7 @@
                     <th>전화번호</th>
                     <th>작성일</th>
                     <th>차단여부</th>
+                    <th>삭제</th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -81,12 +85,16 @@
                     <th>PhoneNumber</th>
                     <th>Create Date</th>
                     <th>Blocking</th>
+                    <th>delete</th>
                   </tr>
                 </tfoot>
                 <tbody id="userTbody">
       
                 </tbody>
               </table>
+              <input type="hidden" name="id" id="id_modify" value=" ">
+               <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
+              </form>
             </div>
           </div>
           <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
@@ -94,7 +102,6 @@
           <p class="small text-center text-muted my-5">
           <em>More table examples coming soon...</em>
         </p>
-
       </div>
       <!-- /.container-fluid -->
 

@@ -34,13 +34,10 @@
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
           <h6 class="dropdown-header">로그인 관련:</h6>
           <a class="dropdown-item" data-toggle="modal" href="#modalLogin">로그인</a>
-          
-          <a class="dropdown-item" href="forgot-password.jsp">비밀번호 찾기</a>
           <div class="dropdown-divider"></div>
           <h6 class="dropdown-header">관리 권한:</h6>
           <a class="dropdown-item" href="/pro/User/list">회원 리스트</a>
           <a class="dropdown-item" href="/pro/User/register">회원정보 입력</a>
-          <a class="dropdown-item" href="blank.html">Blank Page</a>
         </div>
       </li>
       
@@ -83,7 +80,7 @@
     <div class="card card-login mx-auto mt-5">
       <div class="card-header">로그인</div>
       <div class="card-body">
-        <form>
+        <form form action="/pro/User/login" method="post" id="loginsubmit">
           <div class="form-group">
             <div class="form-label-group">
               <input type="email" name="loginid" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
@@ -97,10 +94,10 @@
             </div>
           </div>
           <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
-          <a class="btn btn-primary btn-block" href="index.html">로그인</a>
+          <a class="btn btn-primary btn-block" href="" onclick="document.getElementById('loginsubmit').submit()">로그인</a>
         </form>
         <div class="text-center">
-          <a class="d-block small" href="forgot-password.html">비밀번호를 까먹으셨나요</a>
+        
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>

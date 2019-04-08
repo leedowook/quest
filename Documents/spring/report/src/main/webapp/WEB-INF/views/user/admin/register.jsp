@@ -41,7 +41,7 @@
 	
   <div class="container">
     <div class="card card-register mx-auto mt-5">
-      <div class="card-header">회원정보 등록</div>
+      <div class="card-header">회원정보 변경</div>
       <div class="card-body">
         <form id="register_frm" action="/pro/User/registeraction" method="post">
           <div class="form-group">
@@ -54,7 +54,7 @@
               </div>
               <div class="col-md-6" id="userIdDiv">
                 <div class="form-label-group">
-                  <input type="text" name="user_id" id="user_id" class="form-control" placeholder="user_id" required="required" onchange="idOverlap()">
+                  <input type="text" name="user_id" id="user_id" class="form-control" placeholder="user_id" required="required" onChange="idOverlap()">
                   <label for="user_id">ID</label>
                 </div>
               </div>
@@ -64,14 +64,14 @@
             <div class="form-row">
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input type="password" name="user_pw" id="user_pw" class="form-control" placeholder="user_pw" required="required">
+                  <input type="password" name="user_pw" id="user_pw" class="form-control" placeholder="user_pw" required="required" onchange="pwdCheck(0)">
                   <label for="user_pw">비밀번호</label>
                 </div>
               </div>
               <div class="col-md-6" id="confirmpwd">
                 <div class="form-label-group">
-                  <input type="password"   id="confirmpwd" class="form-control" placeholder="confirmpwd" required="required" onkeypress="pwCheck()">
-                  <label for="confirmpwd">비밀번호 확인</label>
+                  <input type="password" name="confirmpw" id="confirmpw" class="form-control" placeholder="confirmpw" required="required" onchange="pwdCheck(1)">
+                  <label for="confirmpw">비밀번호 확인</label>
                 </div>
               </div>
             </div>
@@ -93,7 +93,7 @@
             </div>
           </div>
           <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
-          <a class="btn btn-primary btn-block" onclick="document.getElementById('register_frm').submit();">생성</a>
+          <a class="btn btn-primary btn-block" onclick="joinSubmit()">생성</a>
         </form>
       </div>
     </div>

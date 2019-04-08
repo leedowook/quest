@@ -16,11 +16,31 @@
   <meta name="_csrf_header" content="${_csrf.headerName}"/>
   <title>SB Admin - Register</title>
   <!-- Custom fonts for this template-->
+ 
   <link href="/pro/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
   <!-- Custom styles for this template-->
   <link href="/pro/resources/css/sb-admin.css" rel="stylesheet">
   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script type="text/javascript">
+  function changePw(){
+	  	var pwCheck;
+		var pw=prompt("새로운 비밀번호를 입력해주세요","");
+		pw=pw.replace(/\s/gi,"");
+		if(pw!=null||pw!=""){
+			pwCheck=prompt("한번 더 입력해주세요","");
+			pwCheck=pwCheck.replace(/\s/gi,"");
+			if(pwCheck!=null||pwCheck!=""){
+				if(pwCheck===pw){
+					$("user_pw").value=pw;
+					alert("변경값이 입력되었습니다. 저장해주세요");
+					
+				}else{
+					alert("두 값이 일치하지 않습니다.");
+				}
+			}
+		}
+  }</script>
 </head>
 
 <body class="bg-white">
@@ -41,21 +61,20 @@
 	
   <div class="container">
     <div class="card card-register mx-auto mt-5">
-      <div class="card-header">회원정보 등록</div>
+      <div class="card-header">회원정보 변경</div>
       <div class="card-body">
-        <form id="register_frm" action="/pro/User/registeraction" method="post">
+        <form id="register_frm" action="/pro/User/registerModifyAction" method="post">
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input type="text" name="user_name" value="${user_name}" id="user_name" class="form-control" placeholder="user_name" required="required" autofocus="autofocus">
+                  <input type="text" name="user_name" value="${user.user_name}" id="user_name" class="form-control" placeholder="user_name" required="required" autofocus="autofocus">
                   <label for="user_name">이름</label>
                 </div>
               </div>
               <div class="col-md-6" id="userIdDiv">
                 <div class="form-label-group">
-	              <input type="text" name="user_id" value="${user_id}" id="user_id" class="form-control" placeholder="user_id" required="required" onchange="idOverlap()">
-                  <label for="user_id">ID</label>
+	              <input type="text"name="user_id" value="${user.user_id}" id="user_id" class="form-control" required="required" readonly="readonly">
                 </div>
               </div>
             </div>
@@ -64,8 +83,14 @@
             <div class="form-row">
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input type="password" name="user_pw" value="${user_pw}" id="user_pw" class="form-control" placeholder="user_pw" required="required">
-                  <label for="user_pw">비밀번호</label>
+                  <fieldset disabled="">
+                  <input type="password" name="user_pw" id="user_pw" class="form-control" placeholder="user_pw" required="required" value=""  disable="" >
+                  </fieldset>
+                </div>
+              </div>
+              <div class="col-md-6" id="confirmpwd">
+                <div class="form-label-group">
+                  <a class="btn btn-primary btn-block" onclick="changePw()">비밀번호 변경</a>
                 </div>
               </div>
             </div>
@@ -74,20 +99,20 @@
             <div class="form-row">
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input type="text" name="user_phone" value="${user_phone} id="user_phone" class="form-control" placeholder="user_phone" required="required">
+                  <input type="text" name="user_phone" value="${user.user_phone}" id="user_phone" class="form-control" placeholder="user_phone" required="required">
                   <label for="user_phone">연락처</label>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input type="date" name="user_crdate" id="user_crdate" class="form-control" placeholder="user_crdate" required="required" value="" >
+                  <input type="date" name="user_crdate" id="user_crdate" class="form-control" placeholder="user_crdate" required="required" value="${user.user_crdate}" >
                   <label for="user_crdate">작성일</label>
                 </div>
               </div>
             </div>
           </div>
           <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
-          <a class="btn btn-primary btn-block" onclick="document.getElementById('register_frm').submit();">생성</a>
+          <a class="btn btn-primary btn-block" onclick="document.getElementById('register_frm').submit();">변경</a>
         </form>
       </div>
     </div>
