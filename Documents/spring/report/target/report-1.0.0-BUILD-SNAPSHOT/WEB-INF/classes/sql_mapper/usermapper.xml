@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.pro.dao.userDao">
+	<insert id="userRegister" parameterType="user" >
+		insert into user values(#{user_id},#{user_pw},#{user_name},#{user_phone},#{user_crdate},1)
+	</insert>
+	<insert id="userAthority" parameterType="user">
+		insert into authority values(#{user_id},'Role_user')
+	
+	</insert>
+	<select id="userList" resultType="user">
+	select * from user 
+	</select>
+	<select id="userInfo" parameterType="string" resultType="user">
+	select * from user where user_ID=#{user_ID} 
+	</select>
+	<select id="userCount" resultType="int">
+	select count(*) from user
+	</select>
+	<select id="idOverlap" parameterType="String" resultType="int">
+	select count(*) from user where user_ID=#{id} 
+	</select>
+	<update id="userUpdate" parameterType="user">
+	 UPDATE user SET user_name=#{user_name},user_crdate=#{user_crdate},user_phone=#{user_phone} WHERE user_id=#{user_id}
+	</update>
+	<update id="userUpdatePw" parameterType="user">
+	 UPDATE user SET user_pw=#{user_pw} WHERE user_id=#{user_id}
+	</update>
+	
+	<delete id="userDelete" parameterType="string">
+		DELETE FROM user WHERE user_id=#{user_id}
+	</delete>
+	<delete id="authorityDelete" parameterType="string">
+		DELETE FROM authority WHERE user_id=#{user_id}
+	</delete>
+</mapper>
