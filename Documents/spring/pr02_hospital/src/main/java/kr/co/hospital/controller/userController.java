@@ -32,6 +32,7 @@ public class userController {
 		
 		return "user/include/sidebar";
 	}
+	
 	@PostMapping("/userInput")
 	public String userInput(@ModelAttribute userVo user,Model model){
 		service.userInput(user);
@@ -44,6 +45,7 @@ public class userController {
 		service.userInput(user);
 		return "user/manageUser";
 	}
+	
 
 
 }

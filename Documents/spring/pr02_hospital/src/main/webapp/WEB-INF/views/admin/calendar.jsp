@@ -10,50 +10,57 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="js/calender.js"></script>
- <link href="css/calender.css" rel="stylesheet">
-<script>
 
-	$(document).ready(function() {
+
+
+
+<script type="text/javascript" src="js/calender.js"></script>
+<link href='css/fullcalendar.css' rel='stylesheet' />
+<link href='css/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='js/jquery-1.10.2.js' type="text/javascript"></script>
+<script src='js/jquery-ui.custom.min.js' type="text/javascript"></script>
+<script src='js/fullcalendar.js' type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function() {
 	    var date = new Date();
 		var d = date.getDate();
 		var m = date.getMonth();
 		var y = date.getFullYear();
-		
+
 		/*  className colors
-		
+
 		className: default(transparent), important(red), chill(pink), success(green), info(blue)
-		
-		*/		
-		
-		  
+
+		*/
+
+
 		/* initialize the external events
 		-----------------------------------------------------------------*/
-	
+
 		$('#external-events div.external-event').each(function() {
-		
+
 			// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
 			// it doesn't need to have a start or end
 			var eventObject = {
 				title: $.trim($(this).text()) // use the element's text as the event title
 			};
-			
+
 			// store the Event Object in the DOM element so we can get to it later
 			$(this).data('eventObject', eventObject);
-			
+
 			// make the event draggable using jQuery UI
 			$(this).draggable({
 				zIndex: 999,
 				revert: true,      // will cause the event to go back to its
 				revertDuration: 0  //  original position after the drag
 			});
-			
+
 		});
-	
-	
+
+
 		/* initialize the calendar
 		-----------------------------------------------------------------*/
-		
+
 		var calendar =  $('#calendar').fullCalendar({
 			header: {
 				left: 'title',
@@ -64,7 +71,7 @@
 			firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
 			selectable: true,
 			defaultView: 'month',
-			
+
 			axisFormat: 'h:mm',
 			columnFormat: {
                 month: 'ddd',    // Mon
@@ -96,29 +103,29 @@
 			},
 			droppable: true, // this allows things to be dropped onto the calendar !!!
 			drop: function(date, allDay) { // this function is called when something is dropped
-			
+
 				// retrieve the dropped element's stored Event Object
 				var originalEventObject = $(this).data('eventObject');
-				
+
 				// we need to copy it, so that multiple events don't have a reference to the same object
 				var copiedEventObject = $.extend({}, originalEventObject);
-				
+
 				// assign it the date that was reported
 				copiedEventObject.start = date;
 				copiedEventObject.allDay = allDay;
-				
+
 				// render the event on the calendar
 				// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 				$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-				
+
 				// is the "remove after drop" checkbox checked?
 				if ($('#drop-remove').is(':checked')) {
 					// if so, remove the element from the "Draggable Events" list
 					$(this).remove();
 				}
-				
+
 			},
-			
+
 			events: [
 				{
 					title: 'All Day Event',
@@ -161,45 +168,44 @@
 					title: 'Click for Google',
 					start: new Date(y, m, 28),
 					end: new Date(y, m, 29),
-					url: 'https://ccp.cloudaccess.net/aff.php?aff=5188',
+					url: 'http://google.com/',
 					className: 'success'
 				}
-			],			
+			],
 		});
-		
-		
+
+
 	});
 
 </script>
 <style>
 
 	body {
-	    margin-bottom: 40px;
 		margin-top: 40px;
 		text-align: center;
 		font-size: 14px;
-		font-family: 'Roboto', sans-serif;
-		
+		font-family: "Helvetica Nueue",Arial,Verdana,sans-serif;
+		background-color: #DDDDDD;
 		}
-		
+
 	#wrap {
 		width: 1100px;
 		margin: 0 auto;
 		}
-		
+
 	#external-events {
 		float: left;
 		width: 150px;
 		padding: 0 10px;
 		text-align: left;
 		}
-		
+
 	#external-events h4 {
 		font-size: 16px;
 		margin-top: 0;
 		padding-top: 1em;
 		}
-		
+
 	.external-event { /* try to mimick the look of a real event */
 		margin: 10px 0;
 		padding: 2px 4px;
@@ -208,13 +214,13 @@
 		font-size: .85em;
 		cursor: pointer;
 		}
-		
+
 	#external-events p {
 		margin: 1.5em 0;
 		font-size: 11px;
 		color: #666;
 		}
-		
+
 	#external-events p input {
 		margin: 0;
 		vertical-align: middle;
@@ -227,19 +233,32 @@
 		background-color: #FFFFFF;
 		  border-radius: 6px;
         box-shadow: 0 1px 2px #C3C3C3;
-		-webkit-box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
--moz-box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
-box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
 		}
 
 </style>
 </head>
 <body>
-<div id='wrap'>
+  <div id="jb-content">
+        <h2>Content</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec mollis nulla. Phasellus lacinia tempus mauris eu laoreet. Proin gravida velit dictum dui consequat malesuada. Aenean et nibh eu purus scelerisque aliquet nec non justo. Aliquam vitae aliquet ipsum. Etiam condimentum varius purus ut ultricies. Mauris id odio pretium, sollicitudin sapien eget, adipiscing risus.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec mollis nulla. Phasellus lacinia tempus mauris eu laoreet. Proin gravida velit dictum dui consequat malesuada. Aenean et nibh eu purus scelerisque aliquet nec non justo. Aliquam vitae aliquet ipsum. Etiam condimentum varius purus ut ultricies. Mauris id odio pretium, sollicitudin sapien eget, adipiscing risus.</p>
+      </div>
+      <div id="jb-sidebar-right">
+        <h2>Sidebar</h2>
+        <ul>
+          <li>Lorem</li>
+          <li>Ipsum</li>
+          <li>Dolor</li>
+        </ul>
+      </div>
+		<div id='wrap'>
 
 <div id='calendar'></div>
 
 <div style='clear:both'></div>
 </div>
+
+
+	</div>
 </body>
 </html>

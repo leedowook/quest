@@ -16,14 +16,9 @@
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.css" rel="stylesheet">
   <script src='//code.jquery.com/jquery.js'></script>
-  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-  
 	  <script>
 	function modalpage(i){
 		if(i==1){
@@ -51,28 +46,7 @@
 
 		}
 	</script>
-	<style>
-	@media screen and (min-width: 1100px) {
-
-	.title{
-		color:white;
-	}
-	.row{
-        background-image: url( "img/loginBackground.png" );
-        background-size:100% 100%;
-        height: 100%;
-	width: 100%;
-		}
-	 .mb-4 {
-    margin-bottom: 0.0rem !important;
-		}
-	*{
-    	overflow:hidden;
-    }
-    
-    }
-
-	</style>
+	
 
 </head>
 
@@ -96,41 +70,212 @@
        <!-- topbarend -->
 
         <!-- Begin Page Content -->
-        <!-- 배경 -->
-        <div class="row" align="right" >
+        <div class="row">
         <div class="container-fluid">
 		
           <!-- Page Heading -->
-          <!-- 로그인 배경 -->
-          <div  id="loginBackground"></div>
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">예약 관리</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+          </div>
           <!-- 메인 -->
-          
-          
-				<div class="col-xl-3 col-lg-3 col-md-12  login" id="loginDiv"align="center" >
-					<h4 class="title">관리자 로그인</h4>
-					<form id="loginform" >
-						 <div class="input-group" >
-						    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-						    <input id="loginId" type="text" class="form-control" name="loginId" placeholder="Id">
-						  </div>
-						  <div class="input-group">
-						    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-						    <input id="loginPassword" type="password" class="form-control" name="LoginPassword" placeholder="Password">
-						  </div>
-						<div class="form-group">
-							<input type="button" class="btn btn-primary btn-block btn-lg" onclick="testLogin()" value="Login">
-						</div>
-					</form>
-				</div>
-            
-            </div>
-           </div>
-          
+          <div class="row">
 
+            <div class="col-xl-5 col-lg-5 col-sm-5 col-md-5" >
+
+              <!-- Area Chart -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">상세검색</h6>
+                </div>
+                <div class="card-body">
+                  
+                
+               		<form id="selectInfo">
+               		<div class="row">
+                 	<div class="form-group col-xl-4">
+    						<label class="control-label" for="patientName">환자명</label>
+    						<input class="form-control col-xl-10" id="patientName" type="text" placeholder="환자명" >
+    						
+    						<label class="control-label" for="doctorName">담당자명</label>
+    						<input class="form-control col-xl-10" id="doctorName" type="text" placeholder="담당자명" >
+    						<label for="exampleSelect1">중요도</label>
+      						<select multiple="" class="form-control col-xl-11" id="exampleSelect1">
+        						<option>긴급</option>
+        						<option>예약</option>
+        						<option>진료완료</option>
+        						<option>취소</option>
+      						</select>
+   					 </div>
+   					 <div class="row col xl-8">
+   					 <div class="form-group col-xl-6">
+    						<label class="control-label" for="medicalDepartment">진료과</label>
+    						<select  class="form-control col-xl-10" id="medicalDepartment">
+        						<option>내과</option>
+        						<option>피부과</option>
+        						<option>외과</option>
+        						<option>소아과</option>
+      						</select>
+      						
+    						<label class="control-label" for="selectOption1">선택옵션1</label>
+    						<select  class="form-control col-xl-10" id="selectOption1">
+        						<option>선택1</option>
+        						<option>선택2</option>
+        						<option>선택3</option>
+        						<option>선택4</option>
+      						</select>
+   					 </div>
+   					 <div class="form-group col-xl-6">
+   					 		<label class="control-label" for="dateStart">날짜 범위검색 </label>
+    						<input type="date"  class="form-control col-xl-12" id="dateStart">
+    						<label class="control-label text-center" for="dateEnd">~</label>
+    						<input type="date"  class="form-control col-xl-12" id="dateEnd">
+   					 </div>
+   					 <div class="form-group col-xl-12">
+   						<label class="control-label" for="patientName">검색옵션명</label>
+    					<input class="form-control col-xl-11" id="patientName" type="text" placeholder="환자명" >
+    					<label class="control-label centered" for="doctorName" font>담당자명</label>
+    					<input class="form-control col-xl-11" id="doctorName" type="text" placeholder="담당자명" >
+    					
+   					 </div>
+   					 </div>
+   					 </div>
+  					</form>
+  					
+  					
+               		
+  					</div>
+                </div>
+            
+
+              <!-- Bar Chart -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">일정 리스트</h6>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>고객명</th>
+                      <th>예약일</th>
+                      <th>진료과</th>
+                      <th>담당자</th>
+                      <th>일정상태</th>
+                    </tr>
+                  </thead>
+                  
+                  <tbody>
+                    <tr>
+            <td class="column1 style2 s">김나라</td>
+            <td class="column3 style5 n">12/13/2019</td>
+            <td class="column6 style6 s">피부과/여드름</td>
+            <td class="column8 style6 n">김땡땡</td>
+            <td class="column9 style2 n">5</td>
+                    </tr>
+                    <tr>
+            <td class="column1 style2 s">김사랑</td>
+            <td class="column3 style5 n">12/13/2019</td>
+            <td class="column6 style2 s">수신</td>
+            <td class="column8 style6 n">피부과/여드름</td>
+            <td class="column9 style2 n">1</td>
+                    </tr>
+                    <tr>
+                     <td class="column1 style2 s">이주</td>
+
+            <td class="column3 style5 n">12/14/2019</td>
+            <td class="column6 style2 s">수신</td>
+            <td class="column8 style2 s">신경과/편두통</td>
+            <td class="column9 style2 n">2</td>
+                    </tr>
+                    <tr>
+            <td class="column1 style2 s">이야기</td>
+            <td class="column3 style5 n">12/15/2019</td>
+            <td class="column6 style2 s">수신</td>
+            <td class="column8 style2 s">외과/타박상</td>
+            <td class="column9 style2 n">2</td>
+                    </tr>
+                    <tr>
+            <td class="column1 style2 s">장경청</td>
+            <td class="column3 style5 n">12/16/2019</td>
+            <td class="column6 style2 s">거부</td>
+            <td class="column8 style2 s">신경과/편두통</td>
+            <td class="column9 style2 n">5</td>
+                    </tr>
+                    <tr>
+                     
+            <td class="column1 style2 s">조몬</td>
+            <td class="column3 style5 n">12/17/2019</td>
+            <td class="column6 style2 s">수신</td>
+            <td class="column8 style2 s">외과/타박상</td>
+            <td class="column9 style2 n">3</td>
+                    </tr>
+                    <tr>
+            <td class="column1 style2 s">최기마</td>
+            <td class="column3 style5 n">12/18/2019</td>
+            <td class="column6 style2 s">수신</td>
+            <td class="column8 style2 m">이비인후과/알레르기</td>
+            <td class="column9 style2 n">4</td>
+                    </tr>
+                    <tr>
+                    <td class="column1 style2 s">지배성</td>
+            <td class="column3 style5 n">12/19/2019</td>
+            <td class="column6 style2 s">수신</td>
+            <td class="column8 style2 s">이비인후과/감기</td>
+            <td class="column9 style2 n">4</td>
+                    </tr>
+                    <tr>
+                       <td class="column1 style2 s">크리스</td>
+            <td class="column3 style5 n">12/20/2019</td>
+            <td class="column6 style2 s">수신</td>
+            <td class="column8 style2 s">외과/타박상</td>
+            <td class="column9 style2 n">3</td>
+                    </tr>
+                    <tr>
+                    <td class="column1 style2 s">스눅리</td>
+            <td class="column3 style5 n">12/22/2019</td>
+            <td class="column6 style2 s">수신</td>
+            <td class="column8 style2 s">이비인후과/알레르기</td>
+            <td class="column9 style2 n">3</td>
+                    </tr>
+                  
+                  </tbody>
+                </table>
+              </div>
+                </div>
+              </div>
+
+			</div>
+			
+		
+            <!-- Donut Chart -->
+          
+            <div class="col-xl-7 col-lg-8 ">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">캘린더</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  
+                </div>
+              </div>
+            </div>
+            </div>
+            </div>
+            </div>
+          
+          
           
               
               
-      
+          <input type="text" value="10000" id="gulzae">원
+				<button type="button" class="btn btn-primary" onclick="refreshDiv()" data-toggle="modal" data-target="#Modal1" style="margin:15px; padding:15px;">
+			  결제버튼
+			</button>
+			
 			<div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="ModalLabel1">
 				  <div class="modal-dialog" role="document">
 				    <div class="modal-content">
@@ -245,7 +390,7 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
- <script type="text/javascript" src="js/login.js"></script>
+
    <!-- Page level plugins -->
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>

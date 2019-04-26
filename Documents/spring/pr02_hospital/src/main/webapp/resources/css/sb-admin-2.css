@@ -11200,12 +11200,14 @@ a:focus {
   z-index: 1;
 }
 
+
 .sidebar .sidebar-brand .sidebar-brand-icon i {
   font-size: 2rem;
 }
 
 .sidebar .sidebar-brand .sidebar-brand-text {
   display: none;
+
 }
 
 .sidebar hr.sidebar-divider {
@@ -11979,6 +11981,8 @@ form.user .btn-user {
   }
 }
 
+
+
 .error:before {
   content: attr(data-text);
   position: absolute;
@@ -12006,3 +12010,15 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+.login#loginDiv{
+	margin-top:50px;
+	margin-right:70px;
+}
+
+
+#mainMark{
+  background-image: url( "../img/hospitalMark.png" );
+  background-size:100% 100%; 
+}
+

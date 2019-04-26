@@ -12,17 +12,29 @@ public class HomeController {
 		return "admin/home";
 		
 	}
-	@GetMapping("/calender")
-	public String calender() {
-		return "admin/calender";
+	@GetMapping("/schMan")
+	public String scheduleManagement() {
+		return "admin/scheduleManagement";
 	}
 	@GetMapping("/table")
 	public String table() {
 		return "admin/datatable";
 	}
-	@GetMapping("/chart")
-	public String chart() {
-		return "admin/chart";
+	@GetMapping("/mesMan")
+	public String messageManagement() {
+		return "admin/messageManagement";
+	}
+	@GetMapping("/empMan")
+	public String employeeManagement() {
+		return "admin/employeeManagement";
+	}
+	@GetMapping("/salAna")
+	public String saleAnalysis() {
+		return "admin/saleAnalysis";
+	}
+	@GetMapping("/cusAna")
+	public String customerAnalysis() {
+		return "admin/customerAnalysis";
 	}
 	@GetMapping("/chart2")
 	public String chart2() {
@@ -31,6 +43,15 @@ public class HomeController {
 	@GetMapping("/nav")
 	public String nav() {
 		return "include/nav";
+	}
+	@GetMapping("/calendar")
+	public String calendar() {
+		return "admin/calendar";
+	}
+	@GetMapping("/datatable")
+	public String datatable() {
+		return "admin/datatable";
+		
 	}
 
 
