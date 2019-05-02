@@ -40,6 +40,36 @@
 				}
 			}
 		}
+  }
+  function changeuser(){
+	  var formdata=$("#register_frm").serializeArray();
+		console.log(formdata);
+		$.ajax({
+			type:"post",
+			dataType:"json",
+			data: formdata,
+			url:"/pro/User/registerModifyAction",
+			
+	        success:function(ajaxdata){
+				 if(ajaxdata.isExist){
+					 console.log("불러오기 실패사용불가");
+				 }else{
+					test=ajaxdata
+					if(test.data>0){
+					alert("정상 입력되었습니다");
+					location.href="notice/userTable.jsp";
+					}else{
+						 console.log(test);
+					alert("알수 없는 오류 잠시뒤에 시도하거나 개발팀에 문의하세요")
+					}
+					
+					 
+				 }},
+	        error: function (textStatus, errorThrown)
+	        {
+	               alert(errorThrown + " " + textStatus);
+	        }
+			});
   }</script>
 </head>
 

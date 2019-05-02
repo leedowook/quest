@@ -6,7 +6,6 @@
 <head>
 	<meta charset="utf-8">
 	<title>고객통계분석</title>
-
 	<style>
 		*{margin:0;padding:0;}
 		div{padding:0px; overflow: hidden; height: auto;}
@@ -15,13 +14,10 @@
 		.hgroup p{margin:10px 0;font-size:10px}
 		h2{margin:0;padding:20px;border:1px solid #000;background-color:#f9f9f9;border-width:1px 0;font-family:Tahoma;}
 	</style>
-
 	<link rel='stylesheet' href='css/Nwagon.css' type='text/css'>
 	<script src='js/Nwagon.js'></script>
-	<link rel="stylesheet"
-          href="css/chartist.min.css">
-           <script src="js/chartist.min.js"></script>
-      
+	<link rel="stylesheet" href="css/chartist.min.css">
+    <script src="js/chartist.min.js"></script>
 </head>
 <body>
 	

@@ -8,7 +8,7 @@ public class userVo {
 	private String user_name;
 	private String user_phone;
 	private Date user_crdate;
-	private int enable;
+	private int enabled;
 	public String getUser_id() {
 		return user_id;
 	}
@@ -39,25 +39,25 @@ public class userVo {
 	public void setUser_crdate(Date user_crdate) {
 		this.user_crdate = user_crdate;
 	}
-	public int getEnable() {
-		return enable;
+	public int getEnabled() {
+		return enabled;
 	}
-	public void setEnable(int enable) {
-		this.enable = enable;
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
 	}
 	@Override
 	public String toString() {
 		return "userVo [user_id=" + user_id + ", user_pw=" + user_pw + ", user_name=" + user_name + ", user_phone="
-				+ user_phone + ", user_crdate=" + user_crdate + ", enable=" + enable + "]";
+				+ user_phone + ", user_crdate=" + user_crdate + ", enabled=" + enabled + "]";
 	}
-	public userVo(String user_id, String user_pw, String user_name, String user_phone, Date user_crdate, int enable) {
+	public userVo(String user_id, String user_pw, String user_name, String user_phone, Date user_crdate, int enabled) {
 		super();
 		this.user_id = user_id;
 		this.user_pw = user_pw;
 		this.user_name = user_name;
 		this.user_phone = user_phone;
 		this.user_crdate = user_crdate;
-		this.enable = enable;
+		this.enabled = enabled;
 	}
 	public userVo() {
 		super();

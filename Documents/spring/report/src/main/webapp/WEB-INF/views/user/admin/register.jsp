@@ -16,10 +16,10 @@
   <meta name="_csrf_header" content="${_csrf.headerName}"/>
   <title>SB Admin - Register</title>
   <!-- Custom fonts for this template-->
-  <link href="/pro/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
   <!-- Custom styles for this template-->
-  <link href="/pro/resources/css/sb-admin.css" rel="stylesheet">
+  <link href="../css/sb-admin.css" rel="stylesheet">
   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 
@@ -41,9 +41,9 @@
 	
   <div class="container">
     <div class="card card-register mx-auto mt-5">
-      <div class="card-header">회원정보 변경</div>
+      <div class="card-header">회원정보 입력</div>
       <div class="card-body">
-        <form id="register_frm" action="/pro/User/registeraction" method="post">
+        <form id="register_frm" name="register_frm" action="/pro/User/registeraction" method="post">
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">
@@ -124,13 +124,13 @@
   </div>
 
    <!-- Bootstrap core JavaScript-->
-  <script src="/pro/resources/vendor/jquery/jquery.min.js"></script>
-  <script src="/pro/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../vendor/jquery/jquery.min.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="/pro/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
-	<script type="text/javascript" src="/pro/resources/js/function.js"></script>
+	<script type="text/javascript" src="../js/function.js"></script>
 </body>
 
 </html>

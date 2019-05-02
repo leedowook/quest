@@ -22,6 +22,7 @@
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script src="js/option.js" type="text/javascript"></script>
   <style>
   	.selectDiv{
   		border: 3px solid #cacaca;
@@ -31,7 +32,15 @@
     }
     #selectOptionList{
     	margin-bottom: 17px;
-    }  
+    } 
+    .subOption{
+    	margin-left:10px;
+    	
+    }
+  	.suboption{
+  		border-color:#ffffff;
+  	  	border: 3px solid ;
+    	border-radius: 10px;}
   </style>	
 
 </head>
@@ -71,25 +80,24 @@
 							<div class="selectDiv col-xl-3 col-lg-3 col-sm-3 col-md-3" id="selectOptionListDiv">
 								<label for="selectOptionList">검색목록</label>
 								<select multiple="" class="form-control col-xl-11"  id="selectOptionList">
-									<option>1.옵션1</option>
-									<option>2.옵션2</option>
-									<option>3.옵션3</option>
-									<option>4.옵션4</option>
-									<option>5.옵션5</option>
-									<option>6.옵션6</option>
-									<option>7.옵션7</option>
-									<option>8.옵션8</option>
-									<option>9.옵션9</option>
-									<option>10.옵션10</option>
+									<option selected="selected" value="옵션1">1.옵션1</option>
+									<option value="옵션2">2.옵션2</option>
+									<option value="옵션3">3.옵션3</option>
+									<option value="옵션4">4.옵션4</option>
+									<option value="옵션5">5.옵션5</option>
+									<option value="옵션6">6.옵션6</option>
+									<option value="옵션7">7.옵션7</option>
+									<option value="옵션8">8.옵션8</option>
+									<option value="옵션9">9.옵션9</option>
+									<option value="옵션10">10.옵션10</option>
 									
 								
 								</select>
 							</div>
 							<div class="col-xl-1 col-lg-1 col-sm-1 col-md-1" align="center">
-								<br><button type="button" class="btn btn-primary">></button><br><br>
+								<br><button type="button" class="btn btn-primary" onclick="addOption()">></button><br><br>
 								<button type="button" class="btn btn-primary"><</button></div>
 							<div class="selectDiv  col-xl-8 col-lg-8 col-sm-8 col-md-8" id="selectOption">
-							
 							</div>
 					</div>
 					</div>

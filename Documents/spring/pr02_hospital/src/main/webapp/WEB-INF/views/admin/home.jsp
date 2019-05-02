@@ -71,8 +71,12 @@
     }
     
     }
+    input#loginId, #loginPassword {
+    margin-bottom: 7px;
+}
 
 	</style>
+	
 
 </head>
 

@@ -28,6 +28,10 @@ public class HomeController {
 	public String employeeManagement() {
 		return "admin/employeeManagement";
 	}
+	@GetMapping("/cusMan")
+	public String customerManagement() {
+		return "admin/customerManagement";
+	}
 	@GetMapping("/salAna")
 	public String saleAnalysis() {
 		return "admin/saleAnalysis";

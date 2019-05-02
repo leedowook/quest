@@ -33,4 +33,20 @@
 	<delete id="authorityDelete" parameterType="string">
 		DELETE FROM authority WHERE user_id=#{user_id}
 	</delete>
+	<select id="userSelectTable" parameterType="select" resultType="user">
+	select * from user 
+	where enabled>=#{option1} and #{option2}>enabled and 
+	(user_ID like CONCAT('%',#{InputOption},'%') or 
+	user_name like CONCAT('%',#{InputOption},'%') or 
+	user_phone like CONCAT('%',#{InputOption},'%') or 
+	user_crdate like CONCAT('%',#{InputOption},'%'))
+	</select>
+	<select id="userSelectCount" parameterType="select" resultType="int">
+	select count(*) from user 
+	where enabled>=#{option1} and #{option2}>enabled and
+	(user_ID like CONCAT('%',#{InputOption},'%') or 
+	user_name like CONCAT('%',#{InputOption},'%') or 
+	user_phone like CONCAT('%',#{InputOption},'%') or 
+	user_crdate like CONCAT('%',#{InputOption},'%'))
+	</select>
 </mapper>

@@ -7,6 +7,6 @@
 	<typeAliases>
 		<!-- 사용자 -->
 		<typeAlias alias="user" type="kr.co.pro.vo.userVo" />
-		
+		<typeAlias alias="select" type="kr.co.pro.vo.selectVo" />
 	</typeAliases>
 </configuration>

@@ -10,9 +10,13 @@
 		</layout>
 	</appender>
 	
+	<appender name="console-infolog" class="org.apache.log4j.ConsoleAppender"> <layout class="org.apache.log4j.PatternLayout"> <param name="ConversionPattern" value="%d %5p %m%n" /> </layout> </appender>
+
+
+	
 	<!-- Application Loggers -->
 	<logger name="kr.co.pro">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

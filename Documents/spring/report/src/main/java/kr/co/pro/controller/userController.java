@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Date;
 import java.text.DateFormat;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,11 +44,13 @@ public class userController {
 		return "user/admin/register";
 	}
 	@PostMapping("/registeraction")
-	public ModelAndView register(@ModelAttribute userVo user,ModelAndView model){
+	@ResponseBody
+	public Map<String,Object> register(@ModelAttribute userVo user,Object result){
+		Map<String,Object> ajaxdata=new HashMap<String,Object>();
+		result=userser.userRegister(user);
 		
-		model=userser.userRegister(user, model);
-	
-		return model;
+		ajaxdata.put("data", result);
+		return ajaxdata;
 	}
 	
 	@GetMapping("/registerModify")
@@ -77,10 +82,24 @@ public class userController {
 		
 	}
 	@PostMapping("/userdelete")
-	public String delete(@RequestParam String id) {
-		userser.userDelete(id);
-		return "redirect:/User/list";
+	@ResponseBody
+	public Map<String,Object> delete(@ModelAttribute("id_del") String id_del,Object result) {
+		System.out.println("삭제");
+		Map<String,Object> ajaxdata=new HashMap<String,Object>();
+		result=userser.userDelete(id_del);
+		ajaxdata.put("data", result);
+		return ajaxdata;
 		
 	} 
+	
+	@GetMapping("/selectUserTable")
+	@ResponseBody
+	public Map<String,Object> selectUserTable(@ModelAttribute selectVo select) {
+		Map<String,Object> result=new HashMap<String,Object>();
+		System.out.println("조회"+select.getOption1());
+		userser.userSelectTable(select,result);
+		System.out.println(result);
+		return result;
+	}
 
 }

@@ -3,7 +3,7 @@ package kr.co.pro.dao;
 import java.util.List;
 import java.util.Map;
 
-import kr.co.pro.vo.userVo;
+import kr.co.pro.vo.*;
 
 public interface userDao {
 
@@ -15,7 +15,8 @@ public interface userDao {
 	public int idOverlap(String id);
 	public void userUpdate(userVo user);
 	public void userUpdatePw(userVo user);
-	public void userDelete(String id);
+	public int userDelete(String id);
 	public void authorityDelete(String id);
-
+	public List<userVo> userSelectTable(selectVo select);
+	public int userSelectCount(selectVo select);
 }

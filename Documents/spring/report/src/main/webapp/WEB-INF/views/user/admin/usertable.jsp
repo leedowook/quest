@@ -24,6 +24,7 @@
   <!-- 유저 정보 -->
   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
   <script  type="text/javascript">
+  
   		var userList=new Array();
   		<c:forEach items="${userList}" var="list">
 			var user=new Object();
@@ -32,14 +33,14 @@
 			user.user_name="${list.user_name}";
 			user.user_phone="${list.user_phone}";
 			user.user_crdate="${list.user_crdate}";
-			user.enable="${list.enable}";
+			user.enabled="${list.enabled}";
 			userList.push(user);
 		</c:forEach>
 		var userCount =<c:out value="${userCount}"/>
 		
 		console.log(userList);
 		console.log(userCount);
-  </script>
+   </script>
   
   
 </head>
@@ -58,11 +59,26 @@
         </ol>
       
     <!-- DataTables Example -->
-    
+    	
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
-            Data Table Example</div>
+            Data Table Example
+            </div>
+             
+            <div class="card-header">
+             <form id="tableSelect"  method="get" >
+             <input type="text" name="InputOption">
+            
+            <select id="userEnable" name="option1">
+           		<option value="no" selected="selected">전체보기</option>
+           		<option value="0">차단</option>
+           		<option value="1">허가</option>
+           	</select>
+           
+          	<button type="button" onclick="selectSubmit()">검색</button>
+            </form>
+            </div>
            
           <div class="card-body">
             <div class="table-responsive">
@@ -95,6 +111,10 @@
               <input type="hidden" name="id" id="id_modify" value=" ">
                <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
               </form>
+              <form id="Del">
+               <input type="hidden" name="id_del" id="id_del" value=" ">
+               <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
+               </form>
             </div>
           </div>
           <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>

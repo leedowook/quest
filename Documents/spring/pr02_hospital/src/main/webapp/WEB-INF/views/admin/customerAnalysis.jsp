@@ -11,9 +11,9 @@
   <meta name="author" content="">
 
   <title>고객통계분석</title>
-  	<link rel="stylesheet"
-          href="css/chartist.min.css">
-           <script src="js/chartist.min.js"></script>
+  <!-- 차트 -->
+  <link rel="stylesheet"href="css/chartist.min.css">
+  <script src="js/chartist.min.js"></script>
 
 
   <!-- Custom fonts for this template-->

@@ -1,7 +1,14 @@
 date();
 var check=[0,0];
+var test="";
 var csrf_token = $('input[name=_csrf]').val();
-
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
+$(function() {
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+});
 function date(){
 document.getElementById('user_crdate').value= new Date().toISOString().slice(0, 10);
 }
@@ -89,7 +96,35 @@ if(id===null){
 	alert("이름을 입력 해주세요");
 }else{
 if(check[0]===1&&check[1]===1){
-document.getElementById('register_frm').submit();
+//document.getElementById('register_frm').submit();
+	var formdata=$("#register_frm").serializeArray();
+	console.log(formdata);
+	$.ajax({
+		type:"post",
+		dataType:"json",
+		data: formdata,
+		url:"/pro/User/registeraction",
+		
+        success:function(ajaxdata){
+			 if(ajaxdata.isExist){
+				 console.log("불러오기 실패사용불가");
+			 }else{
+				test=ajaxdata
+				if(test.data>0){
+				alert("정상 입력되었습니다");
+				$("#register_frm")[0].reset();
+				}else{
+					 console.log(test);
+				alert("알수 없는 오류 잠시뒤에 시도하거나 개발팀에 문의하세요")
+				}
+				
+				 
+			 }},
+        error: function (textStatus, errorThrown)
+        {
+               alert(errorThrown + " " + textStatus);
+        }
+		});
 }else if(check[0]===0&&check[1]===1){
 	alert("아이디가 중복되었는지 확인을 해주세요");
 }else if(check[0]===1&&check[1]===0){
