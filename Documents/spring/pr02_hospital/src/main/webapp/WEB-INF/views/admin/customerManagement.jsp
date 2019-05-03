@@ -19,7 +19,14 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.css" rel="stylesheet">
   <script src='//code.jquery.com/jquery.js'></script>
-
+  <script type="text/javascript">
+  	$(function(){
+  		if($("#user_pw").length>0){
+  			$('#confirmpw').removeAttr('disabled');	
+  			
+  		}
+  	}
+  </script>
 	
 
 </head>
@@ -56,8 +63,8 @@
 			                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 			                  <thead>
 			                    <tr>
-			                      <th>고객명</th>
-			                      <th>성별</th>
+			                      <th>고객번호</th>
+			                      <th>이름</th>
 			                      <th>생년월일</th>
 			                      <th>내원횟수</th>     
 			                      <th>휴대폰번호</th>
@@ -209,22 +216,71 @@
   </a>
 
   <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	 <div class="modal fade" id="customerAddModal" tabindex="-1" role="dialog" aria-labelledby="customerAddModallable" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <h5 class="modal-title" id="customerAddModallable">직원입력</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+        <div class="modal-body">
+        	<div class="card-header">직원정보 입력</div>
+		      <div class="card-body">
+		       <form id="register_frm" name="register_frm" action="/pro/User/registeraction" method="post">
+		          <div class="form-group">
+		            <div class="form-row">
+		              <div class="col-md-6">         
+		                  <input type="text" name="name" id="user_name" class="form-control" placeholder="이름" required="required" autofocus="autofocus">  
+		              </div>
+		               <div class="col-md-6">
+		                  <input type="text" name="user_phone" id="user_phone" class="form-control" placeholder="전화번호" required="required">
+		              </div>
+		            </div>
+		          </div>
+		          <div class="form-group">
+		            <div class="form-row">
+		              <div class="col-md-6">
+		                  <input type="password" name="pw" id="user_pw" class="form-control" placeholder="비밀번호입력" required="required" onchange="pwdCheck(0)">
+		              </div>
+		              <div class="col-md-6"  id="confirmpwd">
+		                  <input type="password" name="confirmpw"  disabled="" id="confirmpw" class="form-control" placeholder="비밀번호 확인" required="required" onchange="pwdCheck(1)">
+		              </div>
+		            </div>
+		          </div>
+		           <div class="form-group">
+		            <div class="form-row">
+		              <div class="col-md-6">
+		                  <input type="text" name="address" id="user_adress" class="form-control" placeholder="주소" required="required">
+		              </div>
+		              <div class="col-md-6">
+		                  <input type="date" name="date" id="user_crdate" class="form-control" placeholder="user_crdate" required="required" value="" >
+		              </div>
+		            </div>
+		          </div>
+		          <div class="form-group">
+		            <div class="form-row">
+		              <div class="col-md-6">
+		                  <input type="text" name="position" id="user_adress" class="form-control" placeholder="직급" required="required">
+		              </div>
+		              <div class="col-md-6">
+		                  <input type="text" name="department" id="user_crdate" class="form-control" placeholder="진료과" required="required" value="" >
+		              </div>
+		            </div>
+		          </div>
+		          <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
+		          <a class="btn btn-primary btn-block" onclick="joinSubmit()">생성</a>
+		        </form>
+		      </div>
+		    </div>
+	       	 <div class="modal-footer">
+	          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+	          <a class="btn btn-primary" href="login.html">입력</a>
+	        </div>
         </div>
+       
       </div>
-    </div>
   </div>
 
   <!-- Bootstrap core JavaScript-->

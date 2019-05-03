@@ -14,9 +14,9 @@
 	 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" value="org.mariadb.jdbc.Driver" />   
-        <property name="url" value="jdbc:mariadb://dspro.iptime.org:3306/hospital" />
+        <property name="url" value="121.170.229.141:3305/hospital" />
         <property name="username" value="ldw" />
-        <property name="password" value="1234" />
+        <property name="password" value="1111" />
     </bean>
     
    <bean id="sqlSession"

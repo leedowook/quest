@@ -240,7 +240,7 @@
 		              <div class="col-md-6">
 		                  <input type="password" name="pw" id="user_pw" class="form-control" placeholder="비밀번호입력" required="required" onchange="pwdCheck(0)">
 		              </div>
-		              <div class="col-md-6" id="confirmpwd">
+		              <div class="col-md-6"  id="confirmpwd">
 		                  <input type="password" name="confirmpw" id="confirmpw" class="form-control" placeholder="비밀번호 확인" required="required" onchange="pwdCheck(1)">
 		              </div>
 		            </div>
@@ -270,11 +270,12 @@
 		        </form>
 		      </div>
 		    </div>
+	       	 <div class="modal-footer">
+	          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+	          <a class="btn btn-primary" href="login.html">입력</a>
+	        </div>
         </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
+       
       </div>
   </div>
   <!-- 수정 -->
@@ -344,10 +345,10 @@
 		        </form>
 		      </div>
 		    </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+	        <div class="modal-footer">
+	          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+	          <a class="btn btn-primary" href="login.html">Logout</a>
+	        </div>
         </div>
       </div>
   </div>
