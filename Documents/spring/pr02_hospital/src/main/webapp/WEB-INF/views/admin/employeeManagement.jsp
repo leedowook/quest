@@ -19,6 +19,63 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.css" rel="stylesheet">
   <script src='//code.jquery.com/jquery.js'></script>
+  <script>
+  var example=[{
+		"id":"emp000000",
+		"name":"김뭐뭐",
+		"birth":"2020/11/11",
+		"position":"전문의",
+		"department":"피부과",
+		"updateDate":"2037/11/11"
+
+	},
+	{
+		"id":"empaa0000",
+		"name":"김땡땡",
+		"birth":"2020/11/11",
+		"position":"간호사",
+		"department":"치과",
+		"updateDate":"2037/11/11"
+
+
+	}
+
+	]
+
+  
+	$(document).ready(function () {
+	 $('#empTable').DataTable({
+		data: example,
+		 columns: [
+		     {"data": 'id'},
+	    	 {"data": 'name'},
+	      	 {"data": 'birth'}, 
+	         {"data": 'position'}, 
+	         {"data": 'department'}, 
+	       	 {"data": 'updateDate'}
+	   	 ]
+		});
+	});
+  	function reloadTable(){
+  		$('#empTable').dataTable().fnClearTable(); 
+  		$('#empTable').dataTable().fnAddData(example);
+  	}
+  	function addAttribute(){
+  		var newData=$("#register_frm").serializeArray();
+  		example.push(newData);
+  		reloadTable();
+  		//form 데이터 가져옴 , 받음 , 실행, form 초기화 
+  	}
+  	function delAttribute(id){
+  		for(var i; i<example.length;i++){
+  			if(example[i].id==id){
+  				example.splice(i,1);
+  			}
+  		} 
+  		reloadTable();
+  		
+  	}
+</script>
 
 	
 
@@ -56,145 +113,19 @@
           </div>
           <!-- 메인 -->
 			<div class="table-responsive">
-			                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+			                <table class="table table-bordered" id="empTable" width="100%" cellspacing="0">
 			                  <thead>
 			                    <tr>
-			                      <th>고객명</th>
-			                      <th>성별</th>
+			                      <th>직원번호</th>
+			                      <th>이름</th>
 			                      <th>생년월일</th>
-			                      <th>내원횟수</th>     
-			                      <th>휴대폰번호</th>
-			                      <th>sns수신동의</th>
-			                      <th>주소</th>
-			                      <th>주 진료</th>
-			                      <th>등급</th>
-			                      <th>총 진료비</th>
+			                      <th>직급</th>     
+			                      <th>진료과</th>
+			                      <th>데이터 수정 일자</th>
 			                    </tr>
 			                  </thead>
 			                  
 			                  <tbody>
-			                    <tr>
-			                        <td class="column1 style2 s">김나라</td>
-						            <td class="column2 style2 s">남</td>
-						            <td class="column3 style5 n">12/13/2019</td>
-						            <td class="column4 style2 null">3</td>
-						            <td class="column5 style6 s">01012314232</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-2</td>
-						            <td class="column8 style2 s">피부과/여드름</td>
-						            <td class="column9 style2 n">5</td>
-						            <td>60000</td>
-			                    </tr>
-			                    <tr>
-			                        <td class="column1 style2 s">김사랑</td>
-						            <td class="column2 style2 s">남</td>
-						            <td class="column3 style5 n">12/13/2019</td>
-						            <td class="column4 style2 null">2</td>
-						            <td class="column5 style6 s">01012314233</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-3</td>
-						            <td class="column8 style2 s">피부과/여드름</td>
-						            <td class="column9 style2 n">1</td>
-						            <td>130000</td>
-			                    </tr>
-			                    <tr>
-			                        <td class="column1 style2 s">이주</td>
-						            <td class="column2 style2 s">여</td>
-						            <td class="column3 style5 n">12/14/2019</td>
-						            <td class="column4 style2 null">4</td>
-						            <td class="column5 style6 s">01012314234</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-4</td>
-						            <td class="column8 style2 s">신경과/편두통</td>
-						            <td class="column9 style2 n">2</td>
-						            <td>140000</td>
-			                    </tr>
-			                    <tr>
-			                        <td class="column1 style2 s">이야기</td>
-						            <td class="column2 style2 s">여</td>
-						            <td class="column3 style5 n">12/15/2019</td>
-						            <td class="column4 style2 s">1</td>
-						            <td class="column5 style6 s">01012314235</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-5</td>
-						            <td class="column8 style2 s">외과/타박상</td>
-						            <td class="column9 style2 n">2</td>
-						            <td>40000</td>
-			                    </tr>
-			                    <tr>
-			                    	<td class="column1 style2 s">장경청</td>
-						            <td class="column2 style2 s">남</td>
-						            <td class="column3 style5 n">12/16/2019</td>
-						            <td class="column4 style2 null">3</td>
-						            <td class="column5 style6 s">01012314236</td>
-						            <td class="column6 style2 s">거부</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-6</td>
-						            <td class="column8 style2 s">신경과/편두통</td>
-						            <td class="column9 style2 n">5</td>
-						            <td>34000</td>
-			                    </tr>
-			                    <tr>
-			                     
-			                        <td class="column1 style2 s">조몬</td>
-						            <td class="column2 style2 s">여</td>
-						            <td class="column3 style5 n">12/17/2019</td>
-						            <td class="column4 style2 null">5</td>
-						            <td class="column5 style6 s">01012314237</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-7</td>
-						            <td class="column8 style2 s">외과/타박상</td>
-						            <td class="column9 style2 n">3</td>
-						            <td>200000</td>
-			                    </tr>
-			                    <tr>
-			                        <td class="column1 style2 s">최기마</td>
-						            <td class="column2 style2 s">남</td>
-						            <td class="column3 style5 n">12/18/2019</td>
-						            <td class="column4 style2 null">6</td>
-						            <td class="column5 style6 s">01012314238</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-8</td>
-						            <td class="column8 style2 s">이비인후과/알레르기</td>
-						            <td class="column9 style2 n">4</td>
-						            <td>60000</td>
-			                    </tr>
-			                    <tr>
-				                    <td class="column1 style2 s">지배성</td>
-						            <td class="column2 style2 s">여</td>
-						            <td class="column3 style5 n">12/19/2019</td>
-						            <td class="column4 style2 null">1</td>
-						            <td class="column5 style6 s">01012314239</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-9</td>
-						            <td class="column8 style2 s">이비인후과/감기</td>
-						            <td class="column9 style2 n">4</td>
-						            <td>10000</td>
-			                    </tr>
-			                    <tr>
-			                        <td class="column1 style2 s">크리스</td>
-						            <td class="column2 style2 s">남</td>
-						            <td class="column3 style5 n">12/20/2019</td>
-						            <td class="column4 style2 null">3</td>
-						            <td class="column5 style6 s">01012314240</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-10</td>
-						            <td class="column8 style2 s">외과/타박상</td>
-						            <td class="column9 style2 n">3</td>
-						            <td>154000</td>
-			                    </tr>
-			                    <tr>
-			                    	<td class="column1 style2 s">스눅리</td>
-						            <td class="column2 style2 s">여</td>
-						            <td class="column3 style5 n">12/22/2019</td>
-						            <td class="column4 style2 null">2</td>
-						            <td class="column5 style6 s">01012314242</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-12</td>
-						            <td class="column8 style2 s">이비인후과/알레르기</td>
-						            <td class="column9 style2 n">3</td>
-						            <td>40000</td>
-			                    </tr>
-			                  
 			                  </tbody>
 			                </table>
 			              </div>
@@ -228,7 +159,7 @@
 		          <div class="form-group">
 		            <div class="form-row">
 		              <div class="col-md-6">         
-		                  <input type="text" name="name" id="user_name" class="form-control" placeholder="이름" required="required" autofocus="autofocus">  
+		                  <input type="text" name="id" id="id" class="form-control" placeholder="이름" required="required" autofocus="autofocus">  
 		              </div>
 		               <div class="col-md-6">
 		                  <input type="text" name="user_phone" id="user_phone" class="form-control" placeholder="전화번호" required="required">
@@ -367,9 +298,9 @@
      <!-- Page level plugins -->
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+  
   <!-- Page level custom scripts -->
-  <script src="js/demo/datatables-demo.js"></script>
+
 
 </body>
 

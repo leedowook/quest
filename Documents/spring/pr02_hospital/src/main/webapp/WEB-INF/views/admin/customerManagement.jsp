@@ -25,8 +25,75 @@
   			$('#confirmpw').removeAttr('disabled');	
   			
   		}
-  	}
+  	});
   </script>
+  <script>
+  var example=[{
+		"id":"cusaa0000",
+		"name":"김아무개",
+		"birth":"2020/11/11",
+		"phone":"010-4244-4444",
+		"sns":"안함",
+		"visit":"4",
+		"early":"알레르기/김모한",
+		"grade":"브론즈"
+	},
+	{
+		"id":"cusaa0001",
+		"name":"이아무개",
+		"birth":"2020/12/11",
+		"phone":"010-4242-4444",
+		"sns":"안함",
+		"visit":"6",
+		"early":"알레르기/미미미",
+		"grade":"실버"
+		
+
+	}
+
+	]
+
+  
+	$(document).ready(function() {
+	 $('#cusTable').DataTable({
+		data: example,
+		 columns: [
+		     {"data": 'id'},
+	    	 {"data": 'name'},
+	      	 {"data": 'birth'}, 
+	         {"data": 'phone'}, 
+	         {"data": 'sns'}, 
+	       	 {"data": 'visit'}, 
+	       	 {"data": 'early'}, 
+	       	 {"data": 'grade'}
+	   	 ]
+		});
+	});
+	function reloadTable(){
+  		$('#cusTable').dataTable().fnClearTable(); 
+  		$('#cusTable').dataTable().fnAddData(example);
+  	}
+  	function addAttribute(){
+  		var newData=$("#register_frm").serializeArray();
+  		if(example[example.length-1].id)
+  		newData.visit = "0";
+  		newData.early = "진료기록없음";
+  		newData.grade = "bronze";
+  		example.push(newData);
+  		reloadTable();
+  		//form 데이터 가져옴 , 받음 , 실행, form 초기화 
+  	}
+  	function delAttribute(id){
+  		for(var i; i<example.length;i++){
+  			if(example[i].id==id){
+  				example.splice(i,1);
+  			}
+  		} 
+  		reloadTable();
+  		
+  	} 
+
+</script>
 	
 
 </head>
@@ -60,156 +127,34 @@
           </div>
           <!-- 메인 -->
 			<div class="table-responsive">
-			                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+			                <table class="table table-bordered" id="cusTable" width="100%" cellspacing="0">
 			                  <thead>
 			                    <tr>
 			                      <th>고객번호</th>
 			                      <th>이름</th>
 			                      <th>생년월일</th>
-			                      <th>내원횟수</th>     
-			                      <th>휴대폰번호</th>
-			                      <th>sns수신동의</th>
-			                      <th>주소</th>
-			                      <th>주 진료</th>
+			                      <th>폰번호</th>     
+			                      <th>수신동의</th>
+			                      <th>내원횟수</th>
+			                      <th>최근 진료</th>
 			                      <th>등급</th>
-			                      <th>총 진료비</th>
 			                    </tr>
 			                  </thead>
 			                  
 			                  <tbody>
-			                    <tr>
-			                        <td class="column1 style2 s">김나라</td>
-						            <td class="column2 style2 s">남</td>
-						            <td class="column3 style5 n">12/13/2019</td>
-						            <td class="column4 style2 null">3</td>
-						            <td class="column5 style6 s">01012314232</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-2</td>
-						            <td class="column8 style2 s">피부과/여드름</td>
-						            <td class="column9 style2 n">5</td>
-						            <td>60000</td>
-			                    </tr>
-			                    <tr>
-			                        <td class="column1 style2 s">김사랑</td>
-						            <td class="column2 style2 s">남</td>
-						            <td class="column3 style5 n">12/13/2019</td>
-						            <td class="column4 style2 null">2</td>
-						            <td class="column5 style6 s">01012314233</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-3</td>
-						            <td class="column8 style2 s">피부과/여드름</td>
-						            <td class="column9 style2 n">1</td>
-						            <td>130000</td>
-			                    </tr>
-			                    <tr>
-			                        <td class="column1 style2 s">이주</td>
-						            <td class="column2 style2 s">여</td>
-						            <td class="column3 style5 n">12/14/2019</td>
-						            <td class="column4 style2 null">4</td>
-						            <td class="column5 style6 s">01012314234</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-4</td>
-						            <td class="column8 style2 s">신경과/편두통</td>
-						            <td class="column9 style2 n">2</td>
-						            <td>140000</td>
-			                    </tr>
-			                    <tr>
-			                        <td class="column1 style2 s">이야기</td>
-						            <td class="column2 style2 s">여</td>
-						            <td class="column3 style5 n">12/15/2019</td>
-						            <td class="column4 style2 s">1</td>
-						            <td class="column5 style6 s">01012314235</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-5</td>
-						            <td class="column8 style2 s">외과/타박상</td>
-						            <td class="column9 style2 n">2</td>
-						            <td>40000</td>
-			                    </tr>
-			                    <tr>
-			                    	<td class="column1 style2 s">장경청</td>
-						            <td class="column2 style2 s">남</td>
-						            <td class="column3 style5 n">12/16/2019</td>
-						            <td class="column4 style2 null">3</td>
-						            <td class="column5 style6 s">01012314236</td>
-						            <td class="column6 style2 s">거부</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-6</td>
-						            <td class="column8 style2 s">신경과/편두통</td>
-						            <td class="column9 style2 n">5</td>
-						            <td>34000</td>
-			                    </tr>
-			                    <tr>
-			                     
-			                        <td class="column1 style2 s">조몬</td>
-						            <td class="column2 style2 s">여</td>
-						            <td class="column3 style5 n">12/17/2019</td>
-						            <td class="column4 style2 null">5</td>
-						            <td class="column5 style6 s">01012314237</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-7</td>
-						            <td class="column8 style2 s">외과/타박상</td>
-						            <td class="column9 style2 n">3</td>
-						            <td>200000</td>
-			                    </tr>
-			                    <tr>
-			                        <td class="column1 style2 s">최기마</td>
-						            <td class="column2 style2 s">남</td>
-						            <td class="column3 style5 n">12/18/2019</td>
-						            <td class="column4 style2 null">6</td>
-						            <td class="column5 style6 s">01012314238</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-8</td>
-						            <td class="column8 style2 s">이비인후과/알레르기</td>
-						            <td class="column9 style2 n">4</td>
-						            <td>60000</td>
-			                    </tr>
-			                    <tr>
-				                    <td class="column1 style2 s">지배성</td>
-						            <td class="column2 style2 s">여</td>
-						            <td class="column3 style5 n">12/19/2019</td>
-						            <td class="column4 style2 null">1</td>
-						            <td class="column5 style6 s">01012314239</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-9</td>
-						            <td class="column8 style2 s">이비인후과/감기</td>
-						            <td class="column9 style2 n">4</td>
-						            <td>10000</td>
-			                    </tr>
-			                    <tr>
-			                        <td class="column1 style2 s">크리스</td>
-						            <td class="column2 style2 s">남</td>
-						            <td class="column3 style5 n">12/20/2019</td>
-						            <td class="column4 style2 null">3</td>
-						            <td class="column5 style6 s">01012314240</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-10</td>
-						            <td class="column8 style2 s">외과/타박상</td>
-						            <td class="column9 style2 n">3</td>
-						            <td>154000</td>
-			                    </tr>
-			                    <tr>
-			                    	<td class="column1 style2 s">스눅리</td>
-						            <td class="column2 style2 s">여</td>
-						            <td class="column3 style5 n">12/22/2019</td>
-						            <td class="column4 style2 null">2</td>
-						            <td class="column5 style6 s">01012314242</td>
-						            <td class="column6 style2 s">수신</td>
-						            <td class="column7 style2 s">인천광역시 연수구 벚꽃로 341-12</td>
-						            <td class="column8 style2 s">이비인후과/알레르기</td>
-						            <td class="column9 style2 n">3</td>
-						            <td>40000</td>
-			                    </tr>
+
 			                  
 			                  </tbody>
 			                </table>
-			              </div>+
+			              </div>
 			  
     		</div>
     		<!-- 메인끝 -->
     <!-- End of Content Wrapper -->
-
-  </div>
+		  </div>
+  		</div>
   <!-- End of Page Wrapper -->
-
+  </div>
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
@@ -228,47 +173,32 @@
         <div class="modal-body">
         	<div class="card-header">직원정보 입력</div>
 		      <div class="card-body">
-		       <form id="register_frm" name="register_frm" action="/pro/User/registeraction" method="post">
+		       <form id="register_frm" name="register_frm" >
 		          <div class="form-group">
 		            <div class="form-row">
-		              <div class="col-md-6">         
-		                  <input type="text" name="name" id="user_name" class="form-control" placeholder="이름" required="required" autofocus="autofocus">  
-		              </div>
-		               <div class="col-md-6">
-		                  <input type="text" name="user_phone" id="user_phone" class="form-control" placeholder="전화번호" required="required">
+		       		 <div class="col-md-12">
+		                  <input type="text" name="name" id="user_phone" class="form-control" placeholder="전화번호" required="required" autofocus="autofocus">
 		              </div>
 		            </div>
 		          </div>
 		          <div class="form-group">
 		            <div class="form-row">
 		              <div class="col-md-6">
-		                  <input type="password" name="pw" id="user_pw" class="form-control" placeholder="비밀번호입력" required="required" onchange="pwdCheck(0)">
-		              </div>
-		              <div class="col-md-6"  id="confirmpwd">
-		                  <input type="password" name="confirmpw"  disabled="" id="confirmpw" class="form-control" placeholder="비밀번호 확인" required="required" onchange="pwdCheck(1)">
+		                  <input type="date" name="birth" id="user_pw" class="form-control" placeholder="비밀번호입력" required="required" onchange="pwdCheck(0)">
 		              </div>
 		            </div>
 		          </div>
 		           <div class="form-group">
 		            <div class="form-row">
 		              <div class="col-md-6">
-		                  <input type="text" name="address" id="user_adress" class="form-control" placeholder="주소" required="required">
+		                  <input type="text" name="phone" id="user_adress" class="form-control" placeholder="주소" required="required">
 		              </div>
 		              <div class="col-md-6">
-		                  <input type="date" name="date" id="user_crdate" class="form-control" placeholder="user_crdate" required="required" value="" >
+		                  <input type="date" name="sns" id="user_crdate" class="form-control" placeholder="user_crdate" required="required" value="" >
 		              </div>
 		            </div>
 		          </div>
-		          <div class="form-group">
-		            <div class="form-row">
-		              <div class="col-md-6">
-		                  <input type="text" name="position" id="user_adress" class="form-control" placeholder="직급" required="required">
-		              </div>
-		              <div class="col-md-6">
-		                  <input type="text" name="department" id="user_crdate" class="form-control" placeholder="진료과" required="required" value="" >
-		              </div>
-		            </div>
-		          </div>
+		         
 		          <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
 		          <a class="btn btn-primary btn-block" onclick="joinSubmit()">생성</a>
 		        </form>
@@ -292,13 +222,9 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 
