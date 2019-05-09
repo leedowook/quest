@@ -19,6 +19,7 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.css" rel="stylesheet">
   <script src='//code.jquery.com/jquery.js'></script>
+  <script src='js/util.js' type="text/javascript"></script>
   <script>
   var example=[{
 		"id":"emp000000",
@@ -30,7 +31,7 @@
 
 	},
 	{
-		"id":"empaa0000",
+		"id":"emp000001",
 		"name":"김땡땡",
 		"birth":"2020/11/11",
 		"position":"간호사",

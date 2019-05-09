@@ -1,20 +1,61 @@
+$.fn.serializeObject = function() {
+    var obj = null;
+    try {
+        if (this[0].tagName && this[0].tagName.toUpperCase() == "FORM") {
+            var arr = this.serializeArray();
+            if (arr) {
+                obj = {};
+                $.each(arr, function() {
+                    obj[this.name] = this.value;
+                });
+            }
+        }
+    } catch (e) {
+        alert(e.message);
+    } finally {
+    }
+ 
+    return obj;
+};
+
+
+
+
+
 function sustr(id){
-	var userpart=id.substr(0,2)
-	var numberpart=id.substr(id.length-6);
-	for(var i=1;i<7;i){
-		lastnubmer=numberpart.substr(1)
-		
+	if(id==null){
+		return "000000"
 	}
+	var ramnumber="",resultnumber="",returnnumber=""
 	
+	var userpart=id.substr(0,3) //emp , cus부분
+	var numberpart=id.substr(id.length-6);//6은 바뀌는 범위
+	console.log("넘버파트"+numberpart)
+	for(var i=1;i<7;i++){//7은 바뀌는범위 +1
+		ramnumber=numberpart.substr(numberpart.length-i,1)//맨끝숫자 , 한자리넘어가면 다음숫자
+		console.log("램넘버1"+ramnumber)
+		console.log("현제"+i) 
+		ramnumber=numbering(ramnumber)//넘버링 함수돌림
+		console.log("램넘버2"+ramnumber)
+		resultnumber=ramnumber+resultnumber//결과넘버에 추가
+		console.log("리설트넘버"+resultnumber)
+		if(ramnumber!=0){
+			returnnumber=numberpart.substr(0,numberpart.length-i)+resultnumber
+			console.log("if문의 리설트넘버"+returnnumber)
+			break;
+		}
+	}
+	userpart+=returnnumber
+	return userpart;
 	
 }
 
 function numbering(number){
 	
 	if(number<9){
-		number*=1;
+		number*=1;//문자를 숫자화
 		number+=1;
-		number+="";
+		number+="";//숫자를 문자화
 	}			
 	else if(number==9){
 		number="a";
