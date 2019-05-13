@@ -78,10 +78,7 @@
   		var date=new Date()
   		console.log(newData);
   		newData.id=sustr(example[example.length-1].id)
-  		newData.visit = "0";
-  		newData.early = "진료기록없음";
-  		newData.grade = "브론즈";
-  		newData.date=new Date(date.getFullYear(),date.getMonth(),date.getDate(),date.getHours())
+  		newData.updateDate=new Date(date.getFullYear(),date.getMonth(),date.getDate(),date.getHours())
   		example.push(newData);
   		reloadTable();
   		//form 데이터 가져옴 , 받음 , 실행, form 초기화 
@@ -105,12 +102,14 @@
   		delete newData.viewNum;
   		newData.date=example[num].date
   		newData.id=example[num].id
-  		newData.early=example[num].early
-  		newData.visit=example[num].visit
   		example[num]=newData
   		$('#employeeViewModal ').modal("toggle");
   		reloadTable()
   	}
+  	function changePassword(){
+  		var	=prompt()  		
+  	}
+  	
   	//정보 상세보기 입력
   	
   	
@@ -406,7 +405,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="customerViewModallable">고객상세보기</h5>
+          <h5 class="modal-title" id="customerViewModallable">직원상세보기</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
@@ -436,8 +435,8 @@
 		                 <input name="birth" id='viewBirth' type="date" value=""></input>
 		               </div>
 		               <div class="col-md-5">
-		                 <label for="viewPhone">전화번호</label>
-		                 <input name="phone" id='viewPhone' type="text" value=""></input>
+		                 <label  for="viewPassword">비밀번호</label>
+		                 <input name="password" id='viewPassword' type="button" value="비밀번호 변경" onclick="changePassword"></input>
 		              </div>
 		              <div class="col-md-1"></div>
 		              </div>
@@ -447,11 +446,11 @@
 		            <div class="form-row">
 		            <div class="col-md-1"></div>
 		              <div class="col-md-5">
-		                  <label for="viewSns">sns수신여부</label>
+		                  <label for="viewSns">직급</label>
 		                 <input name="sns" id='viewSns' type="text" value=""></input>
 		              </div>
 		              <div class="col-md-5">
-		                 <label for="viewVisit">방문횟수</label>
+		                 <label for="viewVisit">진료과</label>
 		                 <input name="visit" id='viewVisit' type="text" disabled="" value=""></input>
 		              </div>
 		              <div class="col-md-1"></div>
@@ -461,12 +460,12 @@
 		            <div class="form-row">
 		            <div class="col-md-1"></div>
 		              <div class=" col-md-5">
-		                  <label  for="viewEarly">최근방문기록</label>
+		                  <label  for="viewEarly">데이터 수정날짜</label>
 		                 <input  name="early" id='viewEarly' type="text" disabled="" value=""></input>
 		              </div>
 		                <div class="col-md-5">
-		                 <label  for="viewGrade">등급</label>
-		                 <input name="grade" id='viewGrade' type="text" value=""></input>
+		                   <label for="viewPhone">전화번호</label>
+		                 <input name="phone" id='viewPhone' type="text" value=""></input>
 		              </div>
 		              <div class="col-md-1"></div>
 		            </div>
