@@ -21,14 +21,76 @@
  
   <!-- Calendar -->
 
-  <link href='css/fullcalendar.css' rel='stylesheet' />
-<link href='css/fullcalendar.print.css' rel='stylesheet' media='print' />
-<link href='css/fullcalendar2.css' rel='stylesheet'/>
-<script src='js/jquery-1.10.2.js' type="text/javascript"></script>
-<script src='js/jquery-ui.custom.min.js' type="text/javascript"></script>
-<script src='js/fullcalendar.js' type="text/javascript"></script>
+<link href='css/fullcalendar/fullcalendar.css' rel='stylesheet' />
+<link href='css/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+<link href='css/fullcalendar/fullcalendar2.css' rel='stylesheet'/>
+<script src='js/fullcalendar/jquery.min.js' type="text/javascript"></script>
+<script src='js/fullcalendar/jquery-ui.min.js' type="text/javascript"></script>
+<script src='js/fullcalendar/moment.min.js' type="text/javascript"></script>
+<script src='js/fullcalendar/fullcalendar.min.js' type="text/javascript"></script>
+<script src="js/date.js" type="text/javascript"></script>
   <!-- Calendar end -->
 	  <script>
+	var date=new Date()
+	var eventSelect
+	var eventsInfo=[
+        {
+            title: 'All Day Event',
+            start: '2019-01-01',
+            aaa:''
+          },
+          {
+            title: 'Long Event',
+            start: '2019-01-07',
+            end: '2019-01-10'
+          },
+          {
+            id: 999,
+            title: 'Repeating Event',
+            start: '2019-01-09T16:00:00'
+          },
+          {
+            id: 999,
+            title: 'Repeating Event',
+            start: '2019-01-16T16:00:00'
+          },
+          {
+            title: 'Conference',
+            start: '2019-01-11',
+            end: '2019-01-13'
+          },
+          {
+            title: 'Meeting',
+            start: '2019-01-12T10:30:00',
+            end: '2019-01-12T12:30:00'
+          },
+          {
+            title: 'Lunch',
+            start: '2019-01-12T12:00:00'
+          },
+          {
+            title: 'Meeting',
+            start: '2019-01-12T14:30:00'
+          },
+          {
+            title: 'Happy Hour',
+            start: '2019-01-12T17:30:00'
+          },
+          {
+            title: 'Dinner',
+            start: '2019-01-12T20:00:00'
+          },
+          {
+            title: 'Birthday Party',
+            start: '2019-01-13T07:00:00'
+          },
+          {
+            title: 'Click for Google',
+            url: 'http://google.com/',
+            start: '2019-01-28'
+          }
+        ]  
+	 
 	function modalpage(i){
 		if(i==1){
 			$('#Modal1').modal("toggle");
@@ -42,174 +104,77 @@
 			$('#Modal3').modal("toggle");	
 		}
 	}
-	function refreshDiv(){
-		gulzae=document.getElementById("gulzae").val;
-		document.getElementById("userInfo").innerHTML = "";
-		document.getElementById("userInfo").innerHTML = "<p>이름:<input type='text' name='name'></p>"+
-		"<p>휴대폰:<input type='text' name='phone'></p>"+
-		"<p>이메일:<input type='text' name='email'></p>"+
-		"<p>개인<input  type='radio' name='user' value='user'> 기업<input type='radio' name='user' value='Enterprise'></p>"+
-		"<p>단과선택:<input type='text' name='dangua'></p>"+
-		"<p>패키지선택:<input type='text' name='packcage'></p>"+
-		"<p>금액:<input type='text' name='gold' value='"+gulzae+"'></p>"
 
-		}
 	//캘린더
-	$(document).ready(function() {
-	    var date = new Date();
-		var d = date.getDate();
-		var m = date.getMonth();
-		var y = date.getFullYear();
+	  $(document).ready(function() {
+    var initialLocaleCode = 'ko';
 
-		/*  className colors
+    $('#calendar').fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay,listMonth'
+      },
+      defaultDate: date.format("yyyy-MM-dd"),
+      locale: initialLocaleCode,
+      buttonIcons: true, // show the prev/next text
+      weekNumbers: true,
+      navLinks: true, // can click day/week names to navigate views
+      editable: true,
+      eventLimit: true,
+      selectable: true,
+      selectHelper: true,
+      select: function(start, end) {
+        var title = prompt('Event Title:');
+        var eventData;
+        if (title) {
+          eventData = {
+            title: title,
+            start: start,
+            end: end
+          };
+          $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+        }
+        $('#calendar').fullCalendar('unselect');
+      },
+      eventClick: function(event, element) {
+    	console.log(event)
+    	eventSelect=event
+    	$("#addEventModal").modal("toggle");
 
-		className: default(transparent), important(red), chill(pink), success(green), info(blue)
+  	  },
+      events: eventsInfo
+    });
 
-		*/
+    // build the locale selector's options
+    $.each($.fullCalendar.locales, function(localeCode) {
+      $('#locale-selector').append(
+        $('<option/>')
+          .attr('value', localeCode)
+          .prop('selected', localeCode == initialLocaleCode)
+          .text(localeCode)
+      );
+    });
 
-
-		/* initialize the external events
-		-----------------------------------------------------------------*/
-
-		$('#external-events div.external-event').each(function() {
-
-			// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-			// it doesn't need to have a start or end
-			var eventObject = {
-				title: $.trim($(this).text()) // use the element's text as the event title
-			};
-
-			// store the Event Object in the DOM element so we can get to it later
-			$(this).data('eventObject', eventObject);
-
-			// make the event draggable using jQuery UI
-			$(this).draggable({
-				zIndex: 999,
-				revert: true,      // will cause the event to go back to its
-				revertDuration: 0  //  original position after the drag
-			});
-
-		});
-
-
-		/* initialize the calendar
-		-----------------------------------------------------------------*/
-
-		var calendar =  $('#calendar').fullCalendar({
-			header: {
-				left: 'title',
-				center: 'agendaDay,agendaWeek,month',
-				right: 'prev,next today'
-			},
-			editable: true,
-			firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
-			selectable: true,
-			defaultView: 'month',
-
-			axisFormat: 'h:mm',
-			columnFormat: {
-                month: 'ddd',    // Mon
-                week: 'ddd d', // Mon 7
-                day: 'dddd M/d',  // Monday 9/7
-                agendaDay: 'dddd d'
-            },
-            titleFormat: {
-                month: 'MMMM yyyy', // September 2009
-                week: "MMMM yyyy", // September 2009
-                day: 'MMMM yyyy'                  // Tuesday, Sep 8, 2009
-            },
-			allDaySlot: false,
-			selectHelper: true,
-			select: function(start, end, allDay) {
-				var title = prompt('Event Title:');
-				if (title) {
-					calendar.fullCalendar('renderEvent',
-						{
-							title: title,
-							start: start,
-							end: end,
-							allDay: allDay
-						},
-						true // make the event "stick"
-					);
-				}
-				calendar.fullCalendar('unselect');
-			},
-			droppable: true, // this allows things to be dropped onto the calendar !!!
-			drop: function(date, allDay) { // this function is called when something is dropped
-
-				// retrieve the dropped element's stored Event Object
-				var originalEventObject = $(this).data('eventObject');
-
-				// we need to copy it, so that multiple events don't have a reference to the same object
-				var copiedEventObject = $.extend({}, originalEventObject);
-
-				// assign it the date that was reported
-				copiedEventObject.start = date;
-				copiedEventObject.allDay = allDay;
-
-				// render the event on the calendar
-				// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-				$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-				// is the "remove after drop" checkbox checked?
-				if ($('#drop-remove').is(':checked')) {
-					// if so, remove the element from the "Draggable Events" list
-					$(this).remove();
-				}
-
-			},
-
-			events: [
-				{
-					title: 'All Day Event',
-					start: new Date(y, m, 1)
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d-3, 16, 0),
-					allDay: false,
-					className: 'info'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d+4, 16, 0),
-					allDay: false,
-					className: 'info'
-				},
-				{
-					title: 'Meeting',
-					start: new Date(y, m, d, 10, 30),
-					allDay: false,
-					className: 'important'
-				},
-				{
-					title: 'Lunch',
-					start: new Date(y, m, d, 12, 0),
-					end: new Date(y, m, d, 14, 0),
-					allDay: false,
-					className: 'important'
-				},
-				{
-					title: 'Birthday Party',
-					start: new Date(y, m, d+1, 19, 0),
-					end: new Date(y, m, d+1, 22, 30),
-					allDay: false,
-				},
-				{
-					title: 'Click for Google',
-					start: new Date(y, m, 28),
-					end: new Date(y, m, 29),
-					url: 'http://google.com/',
-					className: 'success'
-				}
-			],
-		});
-
-
-	});
+    // when the selected option changes, dynamically change the calendar option
+    $('#locale-selector').on('change', function() {
+      if (this.value) {
+        $('#calendar').fullCalendar('option', 'locale', this.value);
+      }
+    });
+  });
+	
+	function reloadCalendar(){
+		$('#calendar').fullCalendar('updateEvent', eventSelect);//초기화하는거
+		
+	}
+	function addEvent(){
+		var newData=$("#addEvent_frm").serializeObject();
+		$('#calendar').fullCalendar('updateEvent', event);
+		$("#addEventModal").modal("toggle");
+		
+	}
+	
 //캘린더 끝
 	</script>
 
@@ -302,14 +267,10 @@
     					<input class="form-control col-xl-11" id="patientName" type="text" placeholder="환자명" >
     					<label class="control-label centered" for="doctorName" font>담당자명</label>
     					<input class="form-control col-xl-11" id="doctorName" type="text" placeholder="담당자명" >
-    					
    					 </div>
    					 </div>
    					 </div>
   					</form>
-  					
-  					
-               		
   					</div>
                 </div>
             
@@ -439,90 +400,110 @@
           
               
               
-          <input type="text" value="10000" id="gulzae">원
-				<button type="button" class="btn btn-primary" onclick="refreshDiv()" data-toggle="modal" data-target="#Modal1" style="margin:15px; padding:15px;">
-			  결제버튼
-			</button>
-			
-			<div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="ModalLabel1">
-				  <div class="modal-dialog" role="document">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        <h4 class="modal-title" id="myModalLabel"> </h4>
-				      </div>
-				      <div class="modal-body">
-				        	<div class="intro-bg" style="background-imge:https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiK3b_v5MThAhXkyosBHQ9qBNQQjRx6BAgBEAU&url=https%3A%2F%2Fblog.fotolia.com%2Fkr%2F2017%2F03%2F29%2F%25EB%2593%259C%25EB%25A1%25A0-%25EC%2582%25AC%25EC%25A7%2584-%25EC%25B4%25AC%25EC%2598%2581-%25ED%258C%2581%2F&psig=AOvVaw14rRXvHTQ2FH88k53oQkpc&ust=1554960350074597">
-				        	</div>
-				        	<div class="intro-content">
-				        	<p>결제를 진행하기 위해</p>
-			 				<p>몇가지 질문에 답해주세요</p>
-			 				</div> 
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-default" onclick="modalpage(1)">다음페이지</button>
-				      </div>
-				    </div>
-				  </div>
-			  </div>
-			  
-			  <div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="ModalLabel2">
-				  <div class="modal-dialog" role="document">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        <h4 class="modal-title" id="myModalLabel"> </h4>
-				      </div>
-				      <div class="modal-body">
-				        	<div class="intro-bg" style="background-imge:https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiK3b_v5MThAhXkyosBHQ9qBNQQjRx6BAgBEAU&url=https%3A%2F%2Fblog.fotolia.com%2Fkr%2F2017%2F03%2F29%2F%25EB%2593%259C%25EB%25A1%25A0-%25EC%2582%25AC%25EC%25A7%2584-%25EC%25B4%25AC%25EC%2598%2581-%25ED%258C%2581%2F&psig=AOvVaw14rRXvHTQ2FH88k53oQkpc&ust=1554960350074597">
-				        	</div>
-				        	<div class="intro-content" id="userInfo">
-				        	<p>이름:<input type="text" name="name"></p>
-			 				<p>휴대폰:<input type="text" name="phone"></p>
-			 				<p>이메일:<input type="text" name="email"></p>
-			 				<p>개인<input  type="radio" name="user" value="user"> 기업<input type="radio" name="user" value="Enterprise"></p>
-			 				<p>단과선택:<input type="text" name="dangua"></p>
-			 				<p>패키지선택:<input type="text" name="packcage"></p>
-			 				<p>금액:<input type="text" name="gold" value="100000000"></p>
-			 				</div> 
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-default" onclick="modalpage(1)">이전페이지</button>
-				        <button type="button" class="btn btn-default" onclick="modalpage(2)">다음페이지</button>
-				      </div>
-				    </div>
-				  </div>
-			  </div>
-			  <div class="modal fade" id="Modal3" tabindex="-1" role="dialog" aria-labelledby="ModalLabel2">
-				  <div class="modal-dialog" role="document">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        <h4 class="modal-title" id="myModalLabel"> </h4>
-				      </div>
-				      <div class="modal-body">
-				        	<div class="intro-bg" style="background-imge:https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiK3b_v5MThAhXkyosBHQ9qBNQQjRx6BAgBEAU&url=https%3A%2F%2Fblog.fotolia.com%2Fkr%2F2017%2F03%2F29%2F%25EB%2593%259C%25EB%25A1%25A0-%25EC%2582%25AC%25EC%25A7%2584-%25EC%25B4%25AC%25EC%2598%2581-%25ED%258C%2581%2F&psig=AOvVaw14rRXvHTQ2FH88k53oQkpc&ust=1554960350074597">
-				        	</div>
-				        	<div class="intro-content">
-				        	<!-- 결제 입력란 -->결제 API
-			 				</div> 
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-default" onclick="modalpage(2)">이전페이지</button>
-				        <button type="button" class="btn btn-default" onclick="submit()">결제완료</button>
-				      
-				      </div>
-				    </div>
-				  </div>
-			  </div>
+         
 			 
-    		</div>
     
     		<!-- 메인끝 -->
     <!-- End of Content Wrapper -->
 
   </div>
   <!-- End of Page Wrapper -->
+  </div>
+  <!-- 변경 이벤트 -->
+  <div class="modal fade" id="updateEventModal" tabindex="-1" role="dialog" aria-labelledby="updateEventModallable" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateEventModallable">비밀번호변경</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+         <form id="updateEvent_frm" name="updateEvent_frm" >
+		      <div class="form-group">
+		        <div class="form-row">
+		         <div class="col-md-1"></div>
+		          <div class="col-md-10">
+		           <label for="viewId">비밀번호</label>
+		           <input type="radio"><
+		          </div>
+		         <div class="col-md-1"></div>
+		       </div>
+		      </div>
+		     <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
+		     <input type="hidden" id="viewNum" value="" name="viewNum">		     
+		  </form>
+		 </div>
+	     <div class="modal-footer">
+	       <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+	       <a class="btn btn-primary" onclick="changePassword()">변경</a>
+	     </div>
+       </div>
+      </div>
+  </div>
+  
+  <!-- 추가 이벤트 -->
+  <div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModallable" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addEventModallable">비밀번호변경</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+		          <div class="form-group">
+		            <div class="form-row">
+		             <div class="col-md-1"></div>
+		              <div class="col-md-10">
+		               <div class="btn-group btn-group-toggle" data-toggle="buttons">
+						<label class="btn btn-danger">
+							<input type="radio" name="eventKind" id="eventKind" value="reservation"  onChange=""> 환자예약 
+						</label>
+						<label class="btn btn-danger">
+							<input type="radio" name="eventKind" id="eventKind" value="schedule"  onChange=""> 일정추가
+						</label>
+				       </div>
+		              </div>
+		             <form id="addEvent_frm" name="addEvent_frm" >
+		             <!-- 환자예약 -->
+		              <div class="hide col-md-10">
+		              	<label for="">예약 상태</label>
+		              	<select name="">
+							<option value="원장"></option>
+							<option value="전문의" selected>전문의</option>
+							<option value="보조의사">보조의사</option>
+							<option value="간호사">간호사</option>
+							<option value="간호조무사">간호조무사</option>
+							<option value="알바">알바</option>
+							<option value="인턴">인턴</option> 
+		              	</select>
+		              	
+		              </div>
+		              <!-- 일정추가 -->
+		              <div class="hide col-md-10">
+		              
+		              </div>
+		              
+		               </form>
+		            </div>
+		          </div>
+		          <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
+		          <input type="hidden" id="eventNum" value="" name="eventNum">		     
+		      
+		          </div>
+		        
+		    
+	       	 <div class="modal-footer">
+	          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+	          <a class="btn btn-primary" onclick="addEvent()">일정추가</a>
+	        </div>
+        </div>
+       
+      </div>
+  </div>
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
@@ -565,7 +546,7 @@
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
-
+<script src='js/fullcalendar/local-all.js' ></script>
 </body>
 
 </html>

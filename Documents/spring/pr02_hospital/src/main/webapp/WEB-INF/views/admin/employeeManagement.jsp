@@ -19,15 +19,15 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.css" rel="stylesheet">
   <script src='//code.jquery.com/jquery.js'></script>
-  
+  <script src="js/date.js"></script>
   <script>
   var example=[{
 		"id":"emp000000",
 		"name":"김뭐뭐",
-		"birth":"2020/11/11",
+		"birth":"2020-11-11",
 		"position":"전문의",
 		"department":"피부과",
-		"updateDate":"2037/11/11",
+		"date":new Date('2019','05','11','14'),
 		"password":"1234",
 		"address":"인천광역시 연수구 벚꽃로 341-3",
 		"phone":"010-4244-4444"
@@ -36,10 +36,10 @@
 	{
 		"id":"emp000001",
 		"name":"김땡땡",
-		"birth":"2020/11/11",
+		"birth":"2020-11-11",
 		"position":"간호사",
 		"department":"치과",
-		"updateDate":"2037/11/11",
+		"date":new Date('2019','05','11','14'),
 		"password":"1234",
 		"address":"인천광역시 연수구 벚꽃로 341-3",
 		"phone":"010-4244-4444"
@@ -58,7 +58,6 @@
 	      	 {"data": 'birth'}, 
 	         {"data": 'position'}, 
 	         {"data": 'department'}, 
-	       	 {"data": 'updateDate'},
 	         {className: "checkbox", "defaultContent": "<input type='checkbox' class='checkoption' >"}
 	   	 ],
 		 columnDefs: [ 
@@ -66,11 +65,14 @@
 	  		   	]
 	  		});
 		});
+    
   	function reloadTable(){
   		$('#empTable').dataTable().fnClearTable(); 
   		$('#empTable').dataTable().fnAddData(example);
+  		updatefunction()
   	}
   	
+
   	
   	//추가
   	function addAttribute(){
@@ -78,7 +80,7 @@
   		var date=new Date()
   		console.log(newData);
   		newData.id=sustr(example[example.length-1].id)
-  		newData.updateDate=new Date(date.getFullYear(),date.getMonth(),date.getDate(),date.getHours())
+  		newData.date=new Date(date.getFullYear(),date.getMonth(),date.getDate(),date.getHours())
   		example.push(newData);
   		reloadTable();
   		//form 데이터 가져옴 , 받음 , 실행, form 초기화 
@@ -92,9 +94,28 @@
   	      }else{
   	        $("input[class=checkoption]").prop("checked", false);
   	      }
+  		 
+  	}
+  	//정보 업데이트
+  	function updatefunction(){
+  		 $('#empTable tbody tr').on('click', '.onclickArea', function () {
+			 console.log('변경')  
+			 viewdata = $(this).parent();
+		        console.log($(this).parent())
+		        viewAttribute(viewdata.children().eq(0).text());
+		
+		    });
   		
   	}
-  	//정보 업데이트 
+  	 $(function(){
+  		updatefunction()
+		
+		 $('.modal').on('hidden.bs.modal', function () {
+	  			console.log('닫기')
+	 		    $(this).find('form').trigger('reset');
+	 		});
+ 	 });
+  	
   	function updateAttribute(){
   		var newData=$("#update_frm").serializeObject();
   		console.log(newData);
@@ -106,8 +127,13 @@
   		$('#employeeViewModal ').modal("toggle");
   		reloadTable()
   	}
+  	function changePasswordModal(){
+  		$('#changePasswordModal').modal("toggle");
+  		
+  	}
   	function changePassword(){
-  		var	=prompt()  		
+  		var num=$("#update_frm [id='viewNum']").val();
+  		example[num].password=$("#changePassword_frm [id='viewPassword']").val();
   	}
   	
   	//정보 상세보기 입력
@@ -131,8 +157,8 @@
 		$('#viewName').append(example[num].name)
 		$('#viewPhone').append(example[num].phone)
 		$('#viewAddress').append(example[num].address)
-		$('#viewPosition').append(example[num].position)
-		$('#viewDepartment').append(example[num].department)
+		$('#viewPosition').val(example[num].position)
+		$('#viewDepartment').val(example[num].department)
 		
 		$('#viewId').attr('value',example[num].id)
 		$('#viewName').attr('value',example[num].name)
@@ -149,21 +175,18 @@
 	function delAttribute(){
   		
   		if($("input:checkbox[class='checkoption']:checked").length>0){
-
 		var checkbox=$(".checkoption:checked")
 		for(var i=0;i<checkbox.length;i++){
   		console.log(checkbox[i].offsetParent.parentElement.getElementsByClassName("id")[0].innerText)
-  		
-  		
   		delaction(checkbox[i].offsetParent.parentElement.getElementsByClassName("id")[0].innerText)
-  		
   		}
-  		reloadTable();}
+  		reloadTable();
+  		}
   	}
   	
   	function delaction(id){
-
-  		for(var i=1; i<example.length;i++){
+  		console.log("길이"+example.length)
+  		for(var i=0; i<example.length;i++){
   			console.log(i+" "+example[i].id+" id:"+id)
   			if(example[i].id==id){
   				console.log(i)
@@ -224,7 +247,6 @@
 			                      <th>생년월일</th>
 			                      <th>직급</th>     
 			                      <th>진료과</th>
-			                      <th>데이터 수정 일자</th>
 			                      <th><input class="checkboxmaster" type="checkbox" onclick="allCheck()"></th>
 			                    </tr>
 			                  </thead>
@@ -296,6 +318,7 @@
 		              <div class="col-md-3">
 		              	<select name="department">
 							<option value="내과">내과</option>
+							<option value="피부과">피부과</option>
 							<option value="소아과" selected>소아과</option>
 							<option value="신경과">신경과</option>
 							<option value="외과">외과</option>
@@ -328,84 +351,11 @@
       </div>
   </div>
   <!-- 수정 -->
-    <div class="modal fade" id="employeeModModal" tabindex="-1" role="dialog" aria-labelledby="employeeModModallable" aria-hidden="true">
+  <div class="modal fade" id="employeeViewModal" tabindex="-1" role="dialog" aria-labelledby="employeeViewModallable" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="employeeModModallable">직원변경</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-        	<div class="card-header">직원정보 변경</div>
-		      <div class="card-body">
-		        <form id="register_frm" name="register_frm" action="/pro/User/registeraction" method="post">
-		          <div class="form-group">
-		            <div class="form-row">
-		              <div class="col-md-6">
-		                <div class="form-label-group">
-		                  <input type="text" name="user_name" id="user_name" class="form-control" placeholder="user_name" required="required" autofocus="autofocus">
-		                  <label for="user_name">이름</label>
-		                </div>
-		              </div>
-		              <div class="col-md-6" id="userIdDiv">
-		                <div class="form-label-group">
-		                  <input type="text" name="user_id" id="user_id" class="form-control" placeholder="user_id" required="required" onChange="idOverlap()">
-		                  <label for="user_id">ID</label>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-		          <div class="form-group">
-		            <div class="form-row">
-		              <div class="col-md-6">
-		                <div class="form-label-group">
-		                  <input type="password" name="user_pw" id="user_pw" class="form-control" placeholder="user_pw" required="required" onchange="pwdCheck(0)">
-		                  <label for="user_pw">비밀번호</label>
-		                </div>
-		              </div>
-		              <div class="col-md-6" id="confirmpwd">
-		                <div class="form-label-group">
-		                  <input type="password" name="confirmpw" id="confirmpw" class="form-control" placeholder="confirmpw" required="required" onchange="pwdCheck(1)">
-		                  <label for="confirmpw">비밀번호 확인</label>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-		           <div class="form-group">
-		            <div class="form-row">
-		              <div class="col-md-6">
-		                <div class="form-label-group">
-		                  <input type="text" name="user_phone" id="user_phone" class="form-control" placeholder="user_phone" required="required">
-		                  <label for="user_phone">연락처</label>
-		                </div>
-		              </div>
-		              <div class="col-md-6">
-		                <div class="form-label-group">
-		                  <input type="date" name="user_crdate" id="user_crdate" class="form-control" placeholder="user_crdate" required="required" value="" >
-		                  <label for="user_crdate">작성일</label>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-		          <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
-		          <a class="btn btn-primary btn-block" onclick="joinSubmit()">생성</a>
-		        </form>
-		      </div>
-		    </div>
-	        <div class="modal-footer">
-	          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-	          <a class="btn btn-primary" href="login.html">Logout</a>
-	        </div>
-        </div>
-      </div>
-  </div>
-  <div class="modal fade" id="customerViewModal" tabindex="-1" role="dialog" aria-labelledby="customerViewModallable" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="customerViewModallable">직원상세보기</h5>
+          <h5 class="modal-title" id="employeeViewModallable">직원상세보기</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
@@ -436,7 +386,7 @@
 		               </div>
 		               <div class="col-md-5">
 		                 <label  for="viewPassword">비밀번호</label>
-		                 <input name="password" id='viewPassword' type="button" value="비밀번호 변경" onclick="changePassword"></input>
+		                 <input name="password" id='viewPassword' type="button" value="비밀번호 변경" onclick="changePasswordModal()"></input>
 		              </div>
 		              <div class="col-md-1"></div>
 		              </div>
@@ -444,14 +394,32 @@
 		       
 		           <div class="form-group">
 		            <div class="form-row">
-		            <div class="col-md-1"></div>
-		              <div class="col-md-5">
-		                  <label for="viewSns">직급</label>
-		                 <input name="sns" id='viewSns' type="text" value=""></input>
+		             <div class="col-md-1"></div>
+		             <div class="col-md-5">
+		             <label  for="viewPosition">직급</label>
+		              	<select name="position" id="viewPosition">
+							<option value="원장">원장</option>
+							<option value="전문의" selected>전문의</option>
+							<option value="보조의사">보조의사</option>
+							<option value="간호사">간호사</option>
+							<option value="간호조무사">간호조무사</option>
+							<option value="알바">알바</option>
+							<option value="인턴">인턴</option> 
+		              	</select>
 		              </div>
 		              <div class="col-md-5">
-		                 <label for="viewVisit">진료과</label>
-		                 <input name="visit" id='viewVisit' type="text" disabled="" value=""></input>
+		              <label  for="viewDepartment">진료과</label>
+		              	<select name="department" id="viewDepartment">
+							<option value="내과">내과</option>
+							<option value="피부과">피부과</option>
+							<option value="소아과" selected>소아과</option>
+							<option value="신경과">신경과</option>
+							<option value="외과">외과</option>
+							<option value="이비인후과">이비인후과</option>
+							<option value="치과">치과</option>
+							<option value="호흡기과">호흡기과</option>
+							<option value="기타">기타</option>
+		              	</select>
 		              </div>
 		              <div class="col-md-1"></div>
 		            </div>
@@ -459,10 +427,6 @@
 		           <div class="form-group">
 		            <div class="form-row">
 		            <div class="col-md-1"></div>
-		              <div class=" col-md-5">
-		                  <label  for="viewEarly">데이터 수정날짜</label>
-		                 <input  name="early" id='viewEarly' type="text" disabled="" value=""></input>
-		              </div>
 		                <div class="col-md-5">
 		                   <label for="viewPhone">전화번호</label>
 		                 <input name="phone" id='viewPhone' type="text" value=""></input>
@@ -490,8 +454,8 @@
 		                 <input name="path" id='viewPath' type="text" value=""></input>
 		              </div>
 		              <div class="col-md-5">
-		                  <label for="viewDate">작성날짜</label>
-		                 <input name="date" id='viewDate' type="text"  disabled="" value=""></input>
+		                 <label  for="viewDate">데이터 수정날짜</label>
+		                 <input  name="date" id='viewDate' type="text" disabled="" value=""></input>
 		              </div>
 		              <div class="col-md-1"></div>
 		            </div>
@@ -507,6 +471,43 @@
 	       	 <div class="modal-footer">
 	          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
 	          <a class="btn btn-primary" onclick="updateAttribute()">변경</a>
+	        </div>
+        </div>
+       
+      </div>
+  </div>
+  
+  <!-- 패스워드 Modal -->
+  <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModallable" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="changePasswordModallable">비밀번호변경</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+         <form id="changePassword_frm" name="changePassword_frm" >
+		          <div class="form-group">
+		            <div class="form-row">
+		             <div class="col-md-1"></div>
+		              <div class="col-md-10">
+		              <label for="viewId">비밀번호</label>
+		                 <input name="password" id='viewPassword'  type="password"></input>
+		              </div>
+		              <div class="col-md-1"></div>
+		            </div>
+		          </div>
+		          <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
+		          <input type="hidden" id="viewNum" value="" name="viewNum">		     
+		         </form>
+		          </div>
+		        
+		    
+	       	 <div class="modal-footer">
+	          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+	          <a class="btn btn-primary" onclick="changePassword()">비밀번호 변경</a>
 	        </div>
         </div>
        

@@ -75,19 +75,28 @@
 		});
 	});
  	 $(function(){
-		 $('#cusTable tbody tr').on('click', '.onclickArea ', function () {
-		        viewdata = $(this).parent();
-		        console.log($(this).parent())
-		        viewAttribute(viewdata.children().eq(0).text());
-		
-		    } ); 
+ 		$('.modal').on('hidden.bs.modal', function () {
+ 		    $(this).find('form').trigger('reset');
+ 		})
+		updatefunction()
 	  
 	  
  	 });
-  
+ 	function updatefunction(){
+ 		 $('#cusTable tbody tr').on('click', '.onclickArea', function () {
+			 console.log('변경')  
+			 viewdata = $(this).parent();
+		        console.log($(this).parent())
+		        viewAttribute(viewdata.children().eq(0).text());
+		
+		    });
+ 		
+ 	}
+ 	 
 	function reloadTable(){
   		$('#cusTable').dataTable().fnClearTable(); 
   		$('#cusTable').dataTable().fnAddData(example);
+  		updatefunction()
   	}
   	function addAttribute(){
   		var newData=$("#register_frm").serializeObject();
@@ -120,8 +129,8 @@
   	}
   	
   	function delaction(id){
-
-  		for(var i=1; i<example.length;i++){
+  		console.log("길이"+example.length)
+  		for(var i=0; i<example.length;i++){
   			console.log(i+" "+example[i].id+" id:"+id)
   			if(example[i].id==id){
   				console.log(i)
@@ -177,7 +186,7 @@
   	      }
   		
   	}
-  	
+  	//변경 모달
   	function updateAttribute(){
   		var newData=$("#update_frm").serializeObject();
   		console.log(newData);
@@ -188,9 +197,12 @@
   		newData.early=example[num].early
   		newData.visit=example[num].visit
   		example[num]=newData
-  		$('#customerViewModal ').modal("toggle");
+  		$('#customerViewModal').modal("toggle");
+  		
   		reloadTable()
   	}
+  	
+
 
 </script>
 	
