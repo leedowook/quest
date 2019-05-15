@@ -30,9 +30,20 @@
 <script src='js/fullcalendar/fullcalendar.min.js' type="text/javascript"></script>
 <script src="js/date.js" type="text/javascript"></script>
   <!-- Calendar end -->
+  	<!--시간 관련내용-->
+  	<script src="js/date.js" type="text/javascript"></script>
+      <script>
+      var today=new Date()
+      var todayD=today.toLocaleDateString();
+      var todayT=today.toLocaleTimeString();
+      
+      </script>
+      
+      
+      <!-- Calendar 관련 내용 -->
 	  <script>
 	var date=new Date()
-	var eventSelect
+	var eventSelect,eventStart,eventEnd
 	var eventsInfo=[
         {
             title: 'All Day Event',
@@ -125,6 +136,8 @@
       selectable: true,
       selectHelper: true,
       select: function(start, end) {
+    	eventStart=start
+    	eventEnd=end
         var title = prompt('Event Title:');
         var eventData;
         if (title) {
@@ -163,11 +176,12 @@
       }
     });
   });
-	
+	//변경 갱신
 	function reloadCalendar(){
-		$('#calendar').fullCalendar('updateEvent', eventSelect);//초기화하는거
+		$('#calendar').fullCalendar('updateEvent', eventSelect);
 		
 	}
+	//추가 일정
 	function addEvent(){
 		var newData=$("#addEvent_frm").serializeObject();
 		$('#calendar').fullCalendar('updateEvent', event);
@@ -448,7 +462,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addEventModallable">비밀번호변경</h5>
+          <h5 class="modal-title" id="addEventModallable">추가 이벤트</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
@@ -463,29 +477,83 @@
 							<input type="radio" name="eventKind" id="eventKind" value="reservation"  onChange=""> 환자예약 
 						</label>
 						<label class="btn btn-danger">
-							<input type="radio" name="eventKind" id="eventKind" value="schedule"  onChange=""> 일정추가
+							<input type="radio" name="eventKind" id="eventKind" value="calendar"  onChange=""> 일정추가
 						</label>
 				       </div>
 		              </div>
 		             <form id="addEvent_frm" name="addEvent_frm" >
 		             <!-- 환자예약 -->
 		              <div class="hide col-md-10">
-		              	<label for="">예약 상태</label>
-		              	<select name="">
-							<option value="원장"></option>
-							<option value="전문의" selected>전문의</option>
-							<option value="보조의사">보조의사</option>
-							<option value="간호사">간호사</option>
-							<option value="간호조무사">간호조무사</option>
-							<option value="알바">알바</option>
-							<option value="인턴">인턴</option> 
-		              	</select>
+		               <div class="row">
+		               <div class="col-md-1"></div>
+		                <div class="col-md-5">
+		              		<label for="">예약종류</label>
+		              		<select name="reserKind">
+								<option value="1" selected>일반예약</option>
+								<option value="2" >긴급 진료</option>
+								<option value="3" >일반 진료</option>
+		              		</select>
+		              	</div>
+		              	<div class="col-md-5">
+		              		<label for="">진료과목</label>
+		              		<select name="reserDepart">
+								<option value="내과">내과</option>
+								<option value="피부과">피부과</option>
+								<option value="소아과" selected>소아과</option>
+								<option value="신경과">신경과</option>
+								<option value="외과">외과</option>
+								<option value="이비인후과">이비인후과</option>
+								<option value="치과">치과</option>
+								<option value="호흡기과">호흡기과</option>
+								<option value="기타">기타</option>
+		         	     	</select>
+		              	</div>
+		              	<div class="col-md-1"></div>
+		              	<div class="col-md-1"></div>
+		              	<div class="col-md-5">
+		              		<label for="">예약자명</label>
+		              		<input name="reserName" id="reserName" type="text" >
+		              		
+		              	</div>
+		              	<div class="col-md-5">
+		              		<label for="">예약자명</label>
+		              		<input name="reserName" id="reserName" type="text" >
+		              	</div>
+		              	<div class="col-md-1"></div>
+		              	<div class="col-md-1"></div>
+		              	<div>
+		              		<label for="">일정 일자</label>
+		              		<input id="date" name="date" type="date" value=""><!-- 예약선택시 입력 -->
+		              	</div>
+		              	<div>
+		              		<label for="">일정 시간</label>
+		              		<input id="hour" name="hour" type="time" value="">
+		              	</div>
 		              	
+		        	   </div>
+		        	   
 		              </div>
 		              <!-- 일정추가 -->
 		              <div class="hide col-md-10">
-		              
+		              <div class="row">
+		                <div class="col-md-5">
+		                	
+		                </div>
+		                <div class="col-md-5">
+		                </div>
 		              </div>
+		              	<div>
+		              		<label for="">일정 일자</label>
+		              		<input id="date" name="date" type="date" value=""><!-- 예약선택시 입력 -->
+		              	</div>
+		              	<div>
+		              		<label for="">일정 시간</label>
+		              		<input id="hour" name="hour" type="date" value="">
+		              	</div>
+		              </div>
+		              
+		              
+		                
 		              
 		               </form>
 		            </div>
