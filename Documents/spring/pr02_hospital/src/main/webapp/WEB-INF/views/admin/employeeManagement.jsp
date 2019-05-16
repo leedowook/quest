@@ -79,7 +79,7 @@
   		var newData=$("#register_frm").serializeObject();
   		var date=new Date()
   		console.log(newData);
-  		newData.id=sustr(example[example.length-1].id)
+  		newData.id=sustr(example[example.length-1].id,6,'emp')
   		newData.date=new Date(date.getFullYear(),date.getMonth(),date.getDate(),date.getHours())
   		example.push(newData);
   		reloadTable();
@@ -108,7 +108,7 @@
   		
   	}
   	 $(function(){
-  		updatefunction()
+ 
 		
 		 $('.modal').on('hidden.bs.modal', function () {
 	  			console.log('닫기')
@@ -368,11 +368,11 @@
 		             <div class="col-md-1"></div>
 		              <div class="col-md-5">
 		              <label for="viewId">고유번호</label>
-		                 <input name="id" id='viewId' value="" disabled="" type="text"></input>
+		                 <input class="form-control"name="id" id='viewId' value="" disabled="" type="text"></input>
 		              </div>
 		              <div class="col-md-5">
 		              <label for="viewName">이름</label>
-		                 <input name="name" id='viewName' value="" type="text"></input>
+		                 <input class="form-control" name="name" id='viewName' value="" type="text"></input>
 		              </div>
 		              <div class="col-md-1"></div>
 		            </div>
@@ -382,11 +382,11 @@
 		            <div class="col-md-1"></div>
 		              <div class="col-md-5">
 		                 <label for="viewBirth">생년월일</label>
-		                 <input name="birth" id='viewBirth' type="date" value=""></input>
+		                 <input class="form-control" name="birth" id='viewBirth' type="date" value=""></input>
 		               </div>
 		               <div class="col-md-5">
 		                 <label  for="viewPassword">비밀번호</label>
-		                 <input name="password" id='viewPassword' type="button" value="비밀번호 변경" onclick="changePasswordModal()"></input>
+		                 <input name="password" class="form-control" id='viewPassword' type="button" value="비밀번호 변경" onclick="changePasswordModal()"></input>
 		              </div>
 		              <div class="col-md-1"></div>
 		              </div>
@@ -397,7 +397,7 @@
 		             <div class="col-md-1"></div>
 		             <div class="col-md-5">
 		             <label  for="viewPosition">직급</label>
-		              	<select name="position" id="viewPosition">
+		              	<select class="form-control" name="position" id="viewPosition">
 							<option value="원장">원장</option>
 							<option value="전문의" selected>전문의</option>
 							<option value="보조의사">보조의사</option>
@@ -409,7 +409,7 @@
 		              </div>
 		              <div class="col-md-5">
 		              <label  for="viewDepartment">진료과</label>
-		              	<select name="department" id="viewDepartment">
+		              	<select class="form-control" name="department" id="viewDepartment">
 							<option value="내과">내과</option>
 							<option value="피부과">피부과</option>
 							<option value="소아과" selected>소아과</option>
@@ -429,7 +429,7 @@
 		            <div class="col-md-1"></div>
 		                <div class="col-md-5">
 		                   <label for="viewPhone">전화번호</label>
-		                 <input name="phone" id='viewPhone' type="text" value=""></input>
+		                 <input name="phone" class="form-control" id='viewPhone' type="text" value=""></input>
 		              </div>
 		              <div class="col-md-1"></div>
 		            </div>
@@ -441,7 +441,7 @@
 		              <div class=" col-md-10">
 		                
 		                 <label  for="viewAddress">주소</label>
-		                 <input name="address" class="col-md-12" id='viewAddress' type="text" value=""></input>
+		                 <input name="address" class="col-md-12 form-control" id='viewAddress' type="text" value=""></input>
 		              </div>
 		             
 		            </div>
@@ -451,11 +451,11 @@
 		            <div class="col-md-1"></div>
 		              <div class="col-md-5">
 		                 <label for="viewPath">방문경로</label>
-		                 <input name="path" id='viewPath' type="text" value=""></input>
+		                 <input name="path" class="form-control" id='viewPath' type="text" value=""></input>
 		              </div>
 		              <div class="col-md-5">
 		                 <label  for="viewDate">데이터 수정날짜</label>
-		                 <input  name="date" id='viewDate' type="text" disabled="" value=""></input>
+		                 <input  name="date" class="form-control" id='viewDate' type="text" disabled="" value=""></input>
 		              </div>
 		              <div class="col-md-1"></div>
 		            </div>

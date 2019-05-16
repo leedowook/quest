@@ -102,7 +102,7 @@
   		var newData=$("#register_frm").serializeObject();
   		var date=new Date()
   		console.log(newData);
-  		newData.id=sustr(example[example.length-1].id)
+  		newData.id=sustr(example[example.length-1].id,6,'cus')
   		newData.visit = "0";
   		newData.early = "진료기록없음";
   		newData.grade = "브론즈";
@@ -351,11 +351,11 @@
 		             <div class="col-md-1"></div>
 		              <div class="col-md-5">
 		              <label for="viewId">고유번호</label>
-		                 <input name="id" id='viewId' value="" disabled="" type="text"></input>
+		                 <input name="id" class="form-control"  id='viewId' value="" disabled="" type="text"></input>
 		              </div>
 		              <div class="col-md-5">
 		              <label for="viewName">이름</label>
-		                 <input name="name" id='viewName' value="" type="text"></input>
+		                 <input name="name" class="form-control"  id='viewName' value="" type="text"></input>
 		              </div>
 		              <div class="col-md-1"></div>
 		            </div>
@@ -365,11 +365,11 @@
 		            <div class="col-md-1"></div>
 		              <div class="col-md-5">
 		                 <label for="viewBirth">생년월일</label>
-		                 <input name="birth" id='viewBirth' type="date" value=""></input>
+		                 <input name="birth" class="form-control"  id='viewBirth' type="date" value=""></input>
 		               </div>
 		               <div class="col-md-5">
 		                 <label for="viewPhone">전화번호</label>
-		                 <input name="phone" id='viewPhone' type="text" value=""></input>
+		                 <input name="phone" class="form-control"  id='viewPhone' type="text" value=""></input>
 		              </div>
 		              <div class="col-md-1"></div>
 		              </div>
@@ -380,11 +380,11 @@
 		            <div class="col-md-1"></div>
 		              <div class="col-md-5">
 		                  <label for="viewSns">sns수신여부</label>
-		                 <input name="sns" id='viewSns' type="text" value=""></input>
+		                 <input name="sns" class="form-control"  id='viewSns' type="text" value=""></input>
 		              </div>
 		              <div class="col-md-5">
 		                 <label for="viewVisit">방문횟수</label>
-		                 <input name="visit" id='viewVisit' type="text" disabled="" value=""></input>
+		                 <input name="visit" class="form-control"  id='viewVisit' type="text" disabled="" value=""></input>
 		              </div>
 		              <div class="col-md-1"></div>
 		            </div>
@@ -394,11 +394,11 @@
 		            <div class="col-md-1"></div>
 		              <div class=" col-md-5">
 		                  <label  for="viewEarly">최근방문기록</label>
-		                 <input  name="early" id='viewEarly' type="text" disabled="" value=""></input>
+		                 <input  name="early" class="form-control"  id='viewEarly' type="text" disabled="" value=""></input>
 		              </div>
 		                <div class="col-md-5">
 		                 <label  for="viewGrade">등급</label>
-		                 <input name="grade" id='viewGrade' type="text" value=""></input>
+		                 <input name="grade" class="form-control"  id='viewGrade' type="text" value=""></input>
 		              </div>
 		              <div class="col-md-1"></div>
 		            </div>
@@ -410,7 +410,7 @@
 		              <div class=" col-md-10">
 		                
 		                 <label  for="viewAddress">주소</label>
-		                 <input name="address" class="col-md-12" id='viewAddress' type="text" value=""></input>
+		                 <input name="address"  class="form-control"  class="col-md-12" id='viewAddress' type="text" value=""></input>
 		              </div>
 		             
 		            </div>
@@ -420,11 +420,11 @@
 		            <div class="col-md-1"></div>
 		              <div class="col-md-5">
 		                 <label for="viewPath">방문경로</label>
-		                 <input name="path" id='viewPath' type="text" value=""></input>
+		                 <input name="path" class="form-control"  id='viewPath' type="text" value=""></input>
 		              </div>
 		              <div class="col-md-5">
 		                  <label for="viewDate">작성날짜</label>
-		                 <input name="date" id='viewDate' type="text"  disabled="" value=""></input>
+		                 <input name="date" class="form-control"  id='viewDate' type="text"  disabled="" value=""></input>
 		              </div>
 		              <div class="col-md-1"></div>
 		            </div>

@@ -29,6 +29,8 @@
 <script src='js/fullcalendar/moment.min.js' type="text/javascript"></script>
 <script src='js/fullcalendar/fullcalendar.min.js' type="text/javascript"></script>
 <script src="js/date.js" type="text/javascript"></script>
+<script src="js/dataTables.hideEmptyColumns.js" type="text/javascript"></script>
+<script src="js/dataTables.hideEmptyColumns.min.js" type="text/javascript"></script>
   <!-- Calendar end -->
   	<!--시간 관련내용-->
   	<script src="js/date.js" type="text/javascript"></script>
@@ -38,70 +40,50 @@
       var todayT=today.toLocaleTimeString();
       
       </script>
-      
+     
       
       <!-- Calendar 관련 내용 -->
 	  <script>
+	  
 	var date=new Date()
 	var eventSelect,eventStart,eventEnd
-	var eventsInfo=[
-        {
-            title: 'All Day Event',
-            start: '2019-01-01',
-            aaa:''
-          },
-          {
-            title: 'Long Event',
-            start: '2019-01-07',
-            end: '2019-01-10'
-          },
-          {
-            id: 999,
-            title: 'Repeating Event',
-            start: '2019-01-09T16:00:00'
-          },
-          {
-            id: 999,
-            title: 'Repeating Event',
-            start: '2019-01-16T16:00:00'
-          },
-          {
-            title: 'Conference',
-            start: '2019-01-11',
-            end: '2019-01-13'
-          },
-          {
-            title: 'Meeting',
-            start: '2019-01-12T10:30:00',
-            end: '2019-01-12T12:30:00'
-          },
-          {
-            title: 'Lunch',
-            start: '2019-01-12T12:00:00'
-          },
-          {
-            title: 'Meeting',
-            start: '2019-01-12T14:30:00'
-          },
-          {
-            title: 'Happy Hour',
-            start: '2019-01-12T17:30:00'
-          },
-          {
-            title: 'Dinner',
-            start: '2019-01-12T20:00:00'
-          },
-          {
-            title: 'Birthday Party',
-            start: '2019-01-13T07:00:00'
-          },
-          {
-            title: 'Click for Google',
-            url: 'http://google.com/',
-            start: '2019-01-28'
-          }
-        ]  
-	 
+	 var eventsInfo=[ 
+         {
+         	  id:'1	',
+         	  className:'divEventReservation',
+             title: '예약190501011',
+             start: '2019-05-01T13:00:00',
+             cusName:'김나라',
+             department:'피부과',
+             empName:'김의사',
+             eventKind:'0',
+             condition:'피부 아픔'
+           },
+           {
+         	 id:'sch0000001',
+         	 className:"divEventSchedule",
+             title: '출장',
+             start: '2019-05-07',
+             end: '2019-06-10',
+             empName:'장의사',
+             eventKind:'4',
+             cusName:null,
+             department:null
+            
+           },
+           {
+             id: 'sch0000002',
+//              className:'divEventReservation',
+             title: 'Repeating Event',
+             start: '2019-01-09T16:00:00',
+             cusName:'김나라',
+             department:'정형외과',
+             empName:'박의사',
+             eventKind:'2',
+             condition:'골절'
+           }
+         ]  
+	 var event
 	function modalpage(i){
 		if(i==1){
 			$('#Modal1').modal("toggle");
@@ -138,26 +120,24 @@
       select: function(start, end) {
     	eventStart=start
     	eventEnd=end
-        var title = prompt('Event Title:');
-        var eventData;
-        if (title) {
-          eventData = {
-            title: title,
-            start: start,
-            end: end
-          };
-          $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-        }
-        $('#calendar').fullCalendar('unselect');
+    	$("#addEventModal").modal("toggle");
+         $('#calendar').fullCalendar('unselect');
       },
       eventClick: function(event, element) {
     	console.log(event)
     	eventSelect=event
-    	$("#addEventModal").modal("toggle");
+    	$("#updateEventModal").modal("toggle");
 
   	  },
-      events: eventsInfo
+      events: eventsInfo,
+      eventRender: function(event, eventElement) {
+    	    if (event.classname == "divEventSchedule") {
+    	    	
+    	      eventElement.find("a.fc-content").css('background-color', 'green');
+    	    }
+    	  }
     });
+ 
 
     // build the locale selector's options
     $.each($.fullCalendar.locales, function(localeCode) {
@@ -175,6 +155,14 @@
         $('#calendar').fullCalendar('option', 'locale', this.value);
       }
     });
+    //modal값 초기화
+    $(function(){
+ 		$('.modal').on('hidden.bs.modal', function () {
+ 		    $(this).find('form').trigger('reset');
+ 		   
+ 		});
+		
+    });
   });
 	//변경 갱신
 	function reloadCalendar(){
@@ -183,15 +171,102 @@
 	}
 	//추가 일정
 	function addEvent(){
+		var kind
+		if($("#addeventKind").val()=='reserDiv'){
+			kind=1
+			
+		}else{ kind=0}
 		var newData=$("#addEvent_frm").serializeObject();
-		$('#calendar').fullCalendar('updateEvent', event);
-		$("#addEventModal").modal("toggle");
-		
+		var kindnumber=date.format('yyMMdd')+kind+newData.eventkind
+		var eventData={
+				id:eventid(kindnumber),
+				title:'',//제목
+				start:'',//시작날,예약일
+				end:'',//끝나는 날
+				alllDay:'',//매일 일정
+				className:'',//클래스 이름 부여
+				
+				cusName:'',//고객이름
+				department:'',//진료과
+				empname:'',//담당자,일정해당자
+				eventKind:'',//일정상태,예약상태 0~3 , 직원 개인 일정 4,단체 일정 5 
+				condition:''//상태	
+		}
+		$('#calendar').fullCalendar('renderEvent', eventData, true);	
 	}
-	
+	function eventid(kindnumber){
+		var j
+		$.each(eventsInfo,function(i,eve){
+			if(eve.id.substr(8)==date.format('yyMMdd')+kindnumber){
+				j=eve.id.substr(eve.id.length-3,3)	
+			}
+			});
+		if(j==null){
+			j=000
+		}else{
+			j=sustr(j,3,date.format('yyMMdd')+kindnumber)
+			
+		}
+		return j
+	}
 //캘린더 끝
 	</script>
-
+	
+	<script >
+	//리스트 시작
+	function getTable(){
+		var tableData=[]
+		$.each(eventsInfo,function(i,eve){
+			if(eve.className=='reservation'){
+				tableData.push(eve)	
+			}
+			});
+		console.log(tableData);
+		return tableData;
+	}
+	$(document).ready(function () {
+		
+			
+		 $('#schTable').DataTable({
+			data: getTable(),
+			 columns: [
+				 {"data": 'cusName'},
+		    	 {"data": 'start'},
+		      	 {"data": 'department'}, 
+		         {"data": 'empName'}, 
+		         {"data": 'eventKind'}, 
+		         {className: "checkbox", "defaultContent": "<input type='checkbox' class='checkoption' >"}
+		   	 ],
+			 columnDefs: [ 
+		  		 { className: "onclickArea", targets: "_all" }
+		  		   	]
+		  		});
+		 
+			});
+	
+	function reloadTable(){
+  		$('#empTable').dataTable().fnClearTable(); 
+  		$('#empTable').dataTable().fnAddData(example);
+  		updatefunction()
+  		
+  	}
+	function displayonDiv(){
+		var target=$("input[name='addeventKind']:checked").val()
+		$("."+target).css('display', 'block');
+		if(target=="reserDiv"){
+			alert("test1"+target)
+			$(".schDiv").css('display', 'none');
+			
+		}else{
+			alert("test2"+target)
+			$(".reserDiv").css('display', 'none');
+			
+		}
+		
+		
+		
+	}
+	</script>
 
 </head>
 
@@ -226,7 +301,7 @@
           <!-- 메인 -->
           <div class="row">
 
-            <div class="col-xl-5 col-lg-5 col-sm-5 col-md-5" >
+            <div class="col-xl-5 col-lg-5 col-sm-12 col-md-12" >
 
               <!-- Area Chart -->
               <div class="card shadow mb-4">
@@ -234,18 +309,16 @@
                   <h6 class="m-0 font-weight-bold text-primary">상세검색</h6>
                 </div>
                 <div class="card-body">
-                  
-                
                		<form id="selectInfo">
                		<div class="row">
                  	<div class="form-group col-xl-4">
     						<label class="control-label" for="patientName">환자명</label>
-    						<input class="form-control col-xl-10" id="patientName" type="text" placeholder="환자명" >
+    						<input class="form-control col-xl-12" id="patientName" type="text" placeholder="환자명" >
     						
     						<label class="control-label" for="doctorName">담당자명</label>
-    						<input class="form-control col-xl-10" id="doctorName" type="text" placeholder="담당자명" >
+    						<input class="form-control col-xl-12" id="doctorName" type="text" placeholder="담당자명" >
     						<label for="exampleSelect1">중요도</label>
-      						<select multiple="" class="form-control col-xl-11" id="exampleSelect1">
+      						<select multiple="" class="form-control col-xl-12" id="exampleSelect1">
         						<option>긴급</option>
         						<option>예약</option>
         						<option>진료완료</option>
@@ -296,7 +369,7 @@
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="schTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>고객명</th>
@@ -304,82 +377,12 @@
                       <th>진료과</th>
                       <th>담당자</th>
                       <th>일정상태</th>
+                        <th><input class="checkboxmaster" type="checkbox" onclick="allCheck()"></th>
                     </tr>
                   </thead>
                   
                   <tbody>
-                    <tr>
-            <td class="column1 style2 s">김나라</td>
-            <td class="column3 style5 n">12/13/2019</td>
-            <td class="column6 style6 s">피부과/여드름</td>
-            <td class="column8 style6 n">김땡땡</td>
-            <td class="column9 style2 n">5</td>
-                    </tr>
-                    <tr>
-            <td class="column1 style2 s">김사랑</td>
-            <td class="column3 style5 n">12/13/2019</td>
-            <td class="column6 style2 s">수신</td>
-            <td class="column8 style6 n">피부과/여드름</td>
-            <td class="column9 style2 n">1</td>
-                    </tr>
-                    <tr>
-                     <td class="column1 style2 s">이주</td>
-
-            <td class="column3 style5 n">12/14/2019</td>
-            <td class="column6 style2 s">수신</td>
-            <td class="column8 style2 s">신경과/편두통</td>
-            <td class="column9 style2 n">2</td>
-                    </tr>
-                    <tr>
-            <td class="column1 style2 s">이야기</td>
-            <td class="column3 style5 n">12/15/2019</td>
-            <td class="column6 style2 s">수신</td>
-            <td class="column8 style2 s">외과/타박상</td>
-            <td class="column9 style2 n">2</td>
-                    </tr>
-                    <tr>
-            <td class="column1 style2 s">장경청</td>
-            <td class="column3 style5 n">12/16/2019</td>
-            <td class="column6 style2 s">거부</td>
-            <td class="column8 style2 s">신경과/편두통</td>
-            <td class="column9 style2 n">5</td>
-                    </tr>
-                    <tr>
-                     
-            <td class="column1 style2 s">조몬</td>
-            <td class="column3 style5 n">12/17/2019</td>
-            <td class="column6 style2 s">수신</td>
-            <td class="column8 style2 s">외과/타박상</td>
-            <td class="column9 style2 n">3</td>
-                    </tr>
-                    <tr>
-            <td class="column1 style2 s">최기마</td>
-            <td class="column3 style5 n">12/18/2019</td>
-            <td class="column6 style2 s">수신</td>
-            <td class="column8 style2 m">이비인후과/알레르기</td>
-            <td class="column9 style2 n">4</td>
-                    </tr>
-                    <tr>
-                    <td class="column1 style2 s">지배성</td>
-            <td class="column3 style5 n">12/19/2019</td>
-            <td class="column6 style2 s">수신</td>
-            <td class="column8 style2 s">이비인후과/감기</td>
-            <td class="column9 style2 n">4</td>
-                    </tr>
-                    <tr>
-                       <td class="column1 style2 s">크리스</td>
-            <td class="column3 style5 n">12/20/2019</td>
-            <td class="column6 style2 s">수신</td>
-            <td class="column8 style2 s">외과/타박상</td>
-            <td class="column9 style2 n">3</td>
-                    </tr>
-                    <tr>
-                    <td class="column1 style2 s">스눅리</td>
-            <td class="column3 style5 n">12/22/2019</td>
-            <td class="column6 style2 s">수신</td>
-            <td class="column8 style2 s">이비인후과/알레르기</td>
-            <td class="column9 style2 n">3</td>
-                    </tr>
+            
                   
                   </tbody>
                 </table>
@@ -400,7 +403,7 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  <div id='calendar'></div>
+                  <div id='calendar' class="col-xl-12 col-lg-12 "></div>
 
 					<div style='clear:both'></div>
                 </div>
@@ -428,7 +431,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="updateEventModallable">비밀번호변경</h5>
+          <h5 class="modal-title" id="updateEventModallable">일정 변경</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
@@ -439,8 +442,8 @@
 		        <div class="form-row">
 		         <div class="col-md-1"></div>
 		          <div class="col-md-10">
-		           <label for="viewId">비밀번호</label>
-		           <input type="radio"><
+		           
+		           
 		          </div>
 		         <div class="col-md-1"></div>
 		       </div>
@@ -462,8 +465,8 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addEventModallable">추가 이벤트</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <h5 class="modal-title" id="addEventModallable">일정 추가 </h5>
+          <button class="close form-control"   type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
@@ -474,21 +477,21 @@
 		              <div class="col-md-10">
 		               <div class="btn-group btn-group-toggle" data-toggle="buttons">
 						<label class="btn btn-danger">
-							<input type="radio" name="eventKind" id="eventKind" value="reservation"  onChange=""> 환자예약 
+							<input type="radio" class="form-control" name="addeventKind" id="addeventKind" value="reserDiv"  onChange="displayonDiv()"> 환자예약 
 						</label>
 						<label class="btn btn-danger">
-							<input type="radio" name="eventKind" id="eventKind" value="calendar"  onChange=""> 일정추가
+							<input type="radio" class="form-control" name="addeventKind" id="addeventKind" value="schDiv"  onChange="displayonDiv()"> 일정추가
 						</label>
 				       </div>
 		              </div>
 		             <form id="addEvent_frm" name="addEvent_frm" >
 		             <!-- 환자예약 -->
-		              <div class="hide col-md-10">
+		              <div class="reserDiv col-md-10" style='display:none;margin:auto'>
 		               <div class="row">
 		               <div class="col-md-1"></div>
 		                <div class="col-md-5">
 		              		<label for="">예약종류</label>
-		              		<select name="reserKind">
+		              		<select class="form-control" name="reserKind">
 								<option value="1" selected>일반예약</option>
 								<option value="2" >긴급 진료</option>
 								<option value="3" >일반 진료</option>
@@ -496,7 +499,7 @@
 		              	</div>
 		              	<div class="col-md-5">
 		              		<label for="">진료과목</label>
-		              		<select name="reserDepart">
+		              		<select class="form-control" name="reserDepart" >
 								<option value="내과">내과</option>
 								<option value="피부과">피부과</option>
 								<option value="소아과" selected>소아과</option>
@@ -512,29 +515,29 @@
 		              	<div class="col-md-1"></div>
 		              	<div class="col-md-5">
 		              		<label for="">예약자명</label>
-		              		<input name="reserName" id="reserName" type="text" >
+		              		<input class="form-control" name="reserName" id="reserName" type="text" >
 		              		
 		              	</div>
 		              	<div class="col-md-5">
 		              		<label for="">예약자명</label>
-		              		<input name="reserName" id="reserName" type="text" >
+		              		<input class="form-control" name="reserName" id="reserName" type="text" >
 		              	</div>
 		              	<div class="col-md-1"></div>
 		              	<div class="col-md-1"></div>
 		              	<div>
 		              		<label for="">일정 일자</label>
-		              		<input id="date" name="date" type="date" value=""><!-- 예약선택시 입력 -->
+		              		<input class="form-control" id="date" name="date" type="date" value=""><!-- 예약선택시 입력 -->
 		              	</div>
 		              	<div>
 		              		<label for="">일정 시간</label>
-		              		<input id="hour" name="hour" type="time" value="">
+		              		<input class="form-control" id="hour" name="hour" type="time" value="">
 		              	</div>
 		              	
 		        	   </div>
 		        	   
 		              </div>
 		              <!-- 일정추가 -->
-		              <div class="hide col-md-10">
+		              <div class="schDiv col-md-10" style='display:none;margin:auto'>
 		              <div class="row">
 		                <div class="col-md-5">
 		                	
@@ -544,11 +547,11 @@
 		              </div>
 		              	<div>
 		              		<label for="">일정 일자</label>
-		              		<input id="date" name="date" type="date" value=""><!-- 예약선택시 입력 -->
+		              		<input id="date" class="form-control" name="date" type="date" value=""><!-- 예약선택시 입력 -->
 		              	</div>
 		              	<div>
 		              		<label for="">일정 시간</label>
-		              		<input id="hour" name="hour" type="date" value="">
+		              		<input id="hour" class="form-control" name="hour" type="date" value="">
 		              	</div>
 		              </div>
 		              
@@ -614,7 +617,6 @@
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
-<script src='js/fullcalendar/local-all.js' ></script>
 </body>
 
 </html>

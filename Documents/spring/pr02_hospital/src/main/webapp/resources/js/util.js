@@ -22,16 +22,21 @@ $.fn.serializeObject = function() {
 
 
 
-function sustr(id){
+function sustr(id,chanum,depart){
 	if(id==null){
-		return "000000"
+		for(i=0;i<=chanum;i++){
+			id+='0'	
+			
+		}
+		return id
 	}
 	var ramnumber="",resultnumber="",returnnumber=""
 	
-	var userpart=id.substr(0,3) //emp , cus부분
-	var numberpart=id.substr(id.length-6);//6은 바뀌는 범위
+	var userpart//최종
+	
+	var numberpart=id.substr(id.length-chanum);//chanum은 바뀌는 범위
 	console.log("넘버파트"+numberpart)
-	for(var i=1;i<7;i++){//7은 바뀌는범위 +1
+	for(var i=1;i<=chanum;i++){
 		ramnumber=numberpart.substr(numberpart.length-i,1)//맨끝숫자 , 한자리넘어가면 다음숫자
 		console.log("램넘버1"+ramnumber)
 		console.log("현제"+i) 
@@ -45,7 +50,7 @@ function sustr(id){
 			break;
 		}
 	}
-	userpart+=returnnumber
+	userpart=depart+returnnumber
 	return userpart;
 	
 }
