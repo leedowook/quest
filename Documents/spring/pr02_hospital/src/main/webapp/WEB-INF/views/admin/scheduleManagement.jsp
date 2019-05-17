@@ -31,6 +31,7 @@
 <script src="js/date.js" type="text/javascript"></script>
 <script src="js/dataTables.hideEmptyColumns.js" type="text/javascript"></script>
 <script src="js/dataTables.hideEmptyColumns.min.js" type="text/javascript"></script>
+<script src="js/util.js" type="text/javascript"></script>
   <!-- Calendar end -->
   	<!--시간 관련내용-->
   	<script src="js/date.js" type="text/javascript"></script>
@@ -49,7 +50,7 @@
 	var eventSelect,eventStart,eventEnd
 	 var eventsInfo=[ 
          {
-         	  id:'1	',
+         	  id:'19050101001',
          	  className:'divEventReservation',
              title: '예약190501011',
              start: '2019-05-01T13:00:00',
@@ -60,10 +61,10 @@
              condition:'피부 아픔'
            },
            {
-         	 id:'sch0000001',
+         	 id:'19050101002',
          	 className:"divEventSchedule",
              title: '출장',
-             start: '2019-05-07',
+             start: '2019-05-07 14:00',
              end: '2019-06-10',
              empName:'장의사',
              eventKind:'4',
@@ -72,8 +73,8 @@
             
            },
            {
-             id: 'sch0000002',
-//              className:'divEventReservation',
+             id: '19050101003',
+            className:'divEventReservation',
              title: 'Repeating Event',
              start: '2019-01-09T16:00:00',
              cusName:'김나라',
@@ -83,7 +84,7 @@
              condition:'골절'
            }
          ]  
-	 var event
+	var event
 	function modalpage(i){
 		if(i==1){
 			$('#Modal1').modal("toggle");
@@ -120,14 +121,18 @@
       select: function(start, end) {
     	eventStart=start
     	eventEnd=end
+    	$("#reserstartdate").attr('value',moment(eventStart).format())
+    	$("#schstartdate").attr('value',moment(eventStart).format())
+    	$("#enddate").attr('value',moment(eventEnd).format())
     	$("#addEventModal").modal("toggle");
          $('#calendar').fullCalendar('unselect');
       },
       eventClick: function(event, element) {
     	console.log(event)
     	eventSelect=event
+    	
     	$("#updateEventModal").modal("toggle");
-
+    	updateAction()
   	  },
       events: eventsInfo,
       eventRender: function(event, eventElement) {
@@ -159,6 +164,7 @@
     $(function(){
  		$('.modal').on('hidden.bs.modal', function () {
  		    $(this).find('form').trigger('reset');
+ 		   displayoffDiv()
  		   
  		});
 		
@@ -169,44 +175,173 @@
 		$('#calendar').fullCalendar('updateEvent', eventSelect);
 		
 	}
+	function mkindnumber(kind,eventkind){
+		var i
+		if(kind=="reser"){
+			i=0
+			
+		}else{
+			i=1
+		}
+		var j=date.format('yyMMdd')+i+eventkind
+		console.log(eventid(j))
+		return date.format('yyMMdd')+i+eventkind
+	}
 	//추가 일정
 	function addEvent(){
-		var kind
-		if($("#addeventKind").val()=='reserDiv'){
-			kind=1
-			
-		}else{ kind=0}
+ 		var kind   
+ 		var eventData={}
 		var newData=$("#addEvent_frm").serializeObject();
-		var kindnumber=date.format('yyMMdd')+kind+newData.eventkind
-		var eventData={
-				id:eventid(kindnumber),
-				title:'',//제목
-				start:'',//시작날,예약일
-				end:'',//끝나는 날
-				alllDay:'',//매일 일정
-				className:'',//클래스 이름 부여
-				
-				cusName:'',//고객이름
-				department:'',//진료과
-				empname:'',//담당자,일정해당자
-				eventKind:'',//일정상태,예약상태 0~3 , 직원 개인 일정 4,단체 일정 5 
-				condition:''//상태	
-		}
-		$('#calendar').fullCalendar('renderEvent', eventData, true);	
-	}
-	function eventid(kindnumber){
-		var j
-		$.each(eventsInfo,function(i,eve){
-			if(eve.id.substr(8)==date.format('yyMMdd')+kindnumber){
-				j=eve.id.substr(eve.id.length-3,3)	
+ 		console.log(newData)
+		if($("input[name='addeventKind']:checked").val()=='reserDiv'){
+		
+			kind='reser'
+ 				console.log("확인 if문 접근"+kind)
+ 			var kindnumber=mkindnumber(kind,newData.reserKind)	
+ 			console.log(kindnumber)
+ 			console.log(eventid(kindnumber)+""+newData.title+""+newData.reserstartdate+"T"+newData.reserstarthour+":00")
+			eventData={
+					id:eventid(kindnumber),
+					title:newData.title,//제목
+					start:newData.reserstartdate+"T"+newData.reserstarthour+":00",//시작날,예약일
+					end:null,//끝나는 날
+					allDay:null,//매일 일정
+					className:'divEventReservation',//클래스 이름 부여
+					cusName:newData.cusName,//고객이름
+					department:newData.reserDepart,//진료과
+					empName:newData.reserempName,//담당자,일정해당자
+					eventKind:newData.reserKind,//일정상태,예약상태 0~3 , 직원 개인 일정 4,단체 일정 5 
+					condition:newData.condition//상태	
 			}
+			
+		}else{
+			   kind='sch'
+			   console.log(kindnumber)
+			   var i,q
+			   if($("#group").prop("checked")){
+					i=4   
+				   }else{i=5}
+				var kindnumber=mkindnumber(kind,i)	
+				console.log(kindnumber)
+				var endval,startval
+				if($("#allDay").prop("checked")){
+					q=true
+					endval=newData.enddate
+					startval=newData.schstartdate
+					
+				}else{
+					q=false
+					startval=newData.schstartdate+"T"+newData.schstarthour+":00"
+					endval=newData.enddate+"T"+newData.endhour+":00"
+				}
+				
+				
+			   eventData={
+						id:eventid(kindnumber),
+						title:newData.title,//제목
+						start:startval,//시작날,예약일
+						end:endval,//끝나는 날
+						allDay:q,//매일 일정
+						className:'divEventSchedule',//클래스 이름 부여
+						cusName:null,//고객이름
+						department:null,//진료과
+						empName:newData.schempName,//담당자,일정해당자
+						eventKind:i,//일정상태,예약상태 0~3 , 직원 개인 일정 4,단체 일정 5 
+						condition:newData.details//상태
+				}
+			   console.log("입력할 데이터"+eventData)
+		}
+		eventsInfo.push(eventData)
+		
+		
+		$('#calendar').fullCalendar('renderEvent', eventData, true);	
+		reloadTable()
+	}
+	
+	
+	function updateAction(){
+		var target
+		$.each(eventsInfo,function(i,eve){
+			if(eventselect.id==eve.id){
+				target=i;
+				return;
+			}
+		});
+		
+		$('.updateEvent_frm #title').append(eventsInfo[target].title)
+		$('.updateEvent_frm #empName').append(eventsInfo[target].empName)
+		$('.updateEvent_frm #eventKind').append(eventsInfo[target].eventKind)
+		$('.updateEvent_frm #condition').append(eventsInfo[target].condition)
+		//start 나누기 시간 , 분
+		
+		$('.updateEvent_frm #title').attr('value',eventsInfo[target].title)
+		$('.updateEvent_frm #empName').attr('value',eventsInfo[target].empName)
+		$('.updateEvent_frm #eventKind').attr('value',eventsInfo[target].eventKind)
+		$('.updateEvent_frm #condition').attr('value',eventsInfo[target].condition)
+		if(eventInfo[target].empName=="divEventSchedule"){
+			//end 나누기 
+			if(eventsInfo[target].eventKind=='4'){
+				$(".updateEvent_frm #group").removeAttr("checked")
+			}else{
+				$('.updateEvent_frm #group').attr('checked','')
+			}
+			if(eventsInfo[target].allDay){
+				$("..updateEvent_frm #allDay").removeAttr("checked")	
+			}else{
+				$('.updateEvent_frm #allDay').attr('checked','')
+			}
+			$('#selectoption').append("세부사항")
+		}else{
+			$('.updateEvent_frm #eventKind').append(eventsInfo[target].eventKind)
+			$('.updateEvent_frm #eventKind').attr('value',eventsInfo[target].eventKind)
+			
+			$('.updateEvent_frm #cusName').append(eventsInfo[target].cusName)
+			$('.updateEvent_frm #department').append(eventsInfo[target].department)
+			$('.updateEvent_frm #cusName').attr('value',eventsInfo[target].cusName)
+			$('.updateEvent_frm #department').attr('value',eventsInfo[target].department)
+			$('#selectoption').append("증상")
+		}
+	}
+	function updateEvent(){
+		eventselect.title = title;
+		eventselect.empName = empName;
+		eventselect.eventKind = eventKind;
+		eventselect.condition = condition;
+		 	
+		
+         calendar.fullCalendar('updateEvent',eventselect);
+         
+		
+	} 
+	
+	function eventid(kindnumber){
+		var j,k=null
+		$.each(eventsInfo,function(i,eve){
+			console.log("data"+kindnumber+"     eve"+eve.id.substr(0,8))
+			if(eve.id.substr(0,8)==kindnumber){
+				if(j==null){
+				j=eve.id.substr(eve.id.length-3,3)}
+				else{
+					if(eve.id.substr(eve.id.length-3,3)>j){
+						j=eve.id.substr(eve.id.length-3,3)
+						
+					}
+					
+					
+				}
+				console.log("eventid"+j)
+			    
+			}
+			console.log(eve.id.substr(0,8))
+			console.log(i)
 			});
 		if(j==null){
-			j=000
+			j=kindnumber+'000'
 		}else{
-			j=sustr(j,3,date.format('yyMMdd')+kindnumber)
+			j=sustr(j,3,kindnumber)
 			
 		}
+		console.log(j)
 		return j
 	}
 //캘린더 끝
@@ -217,7 +352,7 @@
 	function getTable(){
 		var tableData=[]
 		$.each(eventsInfo,function(i,eve){
-			if(eve.className=='reservation'){
+			if(eve.className=='divEventReservation'){
 				tableData.push(eve)	
 			}
 			});
@@ -225,8 +360,6 @@
 		return tableData;
 	}
 	$(document).ready(function () {
-		
-			
 		 $('#schTable').DataTable({
 			data: getTable(),
 			 columns: [
@@ -245,27 +378,44 @@
 			});
 	
 	function reloadTable(){
-  		$('#empTable').dataTable().fnClearTable(); 
-  		$('#empTable').dataTable().fnAddData(example);
-  		updatefunction()
-  		
+  		$('#schTable').dataTable().fnClearTable(); 
+  		$('#schTable').dataTable().fnAddData(getTable());
   	}
+	function displayoffDiv(){
+		$(".reserDiv").css('display', 'none');	
+		$(".schDiv").css('display', 'none');
+		$(".eventbutton").css('display','none');
+		$(".radiosel").removeClass('active focus');
+	}
 	function displayonDiv(){
 		var target=$("input[name='addeventKind']:checked").val()
 		$("."+target).css('display', 'block');
+		$(".eventbutton").css('display','block');
 		if(target=="reserDiv"){
-			alert("test1"+target)
 			$(".schDiv").css('display', 'none');
 			
 		}else{
-			alert("test2"+target)
-			$(".reserDiv").css('display', 'none');
+			
+			$(".reserDiv").css('display', 'none');		
+		}
+	}
+	function alldaycheck(){
+		if($("#allDay").prop("checked")){
+			$("#endhour").removeAttr("disabled")
+			$("#schstarthour").removeAttr("disabled")
+			
+			
+		}else{
+			$("#endhour").attr("disabled","")
+			$("#schstarthour").attr("disabled","")
 			
 		}
 		
 		
-		
 	}
+
+		
+
 	</script>
 
 </head>
@@ -301,7 +451,7 @@
           <!-- 메인 -->
           <div class="row">
 
-            <div class="col-xl-5 col-lg-5 col-sm-12 col-md-12" >
+            <div class="col-xl-5 col-lg-12 col-sm-12 col-md-12" >
 
               <!-- Area Chart -->
               <div class="card shadow mb-4">
@@ -377,7 +527,7 @@
                       <th>진료과</th>
                       <th>담당자</th>
                       <th>일정상태</th>
-                        <th><input class="checkboxmaster" type="checkbox" onclick="allCheck()"></th>
+                      <th><input class="checkboxmaster" type="checkbox" onclick="allCheck()"></th>
                     </tr>
                   </thead>
                   
@@ -395,7 +545,7 @@
 		
             <!-- Donut Chart -->
           
-            <div class="col-xl-7 col-lg-8 ">
+            <div class="col-xl-7 col-lg-12 col-sm-12 col-md-12 ">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3">
@@ -437,20 +587,92 @@
           </button>
         </div>
         <div class="modal-body">
-         <form id="updateEvent_frm" name="updateEvent_frm" >
-		      <div class="form-group">
-		        <div class="form-row">
-		         <div class="col-md-1"></div>
-		          <div class="col-md-10">
-		           
-		           
-		          </div>
-		         <div class="col-md-1"></div>
-		       </div>
-		      </div>
-		     <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
-		     <input type="hidden" id="viewNum" value="" name="viewNum">		     
-		  </form>
+         <div class="modal-body">
+        	<form id="updateEvent_frm" name="updateEvent_frm">
+                <div class="row">
+                  <div class="col-md-1"></div>
+                  <div class="col-md-5">
+                <label for="title">일정 주제</label>
+		             <input class="form-control" id="title" name="title" type="text" placeholder="일정 제목">
+                 </div>
+                 <div class="col-md-5">
+                 <label for="">담당자명</label>
+                  <input class="form-control" name="empName" id="empName" type="text" >
+                  </div>
+		             <div class="col-md-1"></div>
+                    <div class="col-md-1"></div>
+                     <div class="col-md-5">
+                       <label for="">시작 일자</label>
+                       <input class="form-control" id="startdate" name="schstartdate" type="date" value=""><!-- 예약선택시 입력 -->
+                     </div >
+                     <div class="col-md-5">
+                       <label for="">시작 시간</label>
+                       <input class="form-control" name="starthour" id="schstarthour" type="time" value="00:00">
+                     </div>
+                     <div class="col-md-1"></div>
+		             <div class="col-md-1"></div>
+                	 <div class="col-md-10">
+                      <label id="selectoption" for="condition"></label>
+ 		              	  <textarea class="form-control" rows="3" id="condition"></textarea>
+                  	</div>
+                    <div class="col-md-1"></div>
+		              </div>
+		              
+		              <!-- 변경(예약부분) -->
+		              	<div class="row" id="reserDivoption">
+							<div class="col-md-5">
+  								<label for="eventKind">예약종류</label>
+  									<select class="form-control" name="reserKind" id="reserKind" >
+									    <option value="1" >일반예약</option>
+									    <option value="2" >긴급 진료</option>
+									    <option value="3" >일반 진료</option>
+ 									 </select>
+							</div>
+						<div class="col-md-5">
+  							<label for="department">진료과목</label>
+  							<select class="form-control" name="reserDepart" id="reserDepart">
+    							<option value="내과">내과</option>
+							    <option value="피부과">피부과</option>
+							    <option value="소아과" selected>소아과</option>
+							    <option value="신경과">신경과</option>
+							    <option value="외과">외과</option>
+							    <option value="이비인후과">이비인후과</option>
+							    <option value="치과">치과</option>
+							    <option value="호흡기과">호흡기과</option>
+							    <option value="기타">기타</option>
+							</select>
+						</div>
+						<div class="col-md-5" style="display:none">
+						  <label for="cusName">예약자명</label>
+						  <input class="form-control" name="cusName" id="cusName" type="text"  >
+						</div>
+					  </div>
+		              <!-- 변경(일정부분) -->
+		              <div class="row" id="schDivoption">
+						<div class="col-md-1"></div>
+						<div class="col-md-5">
+  							<label for="">끝나는 일자</label>
+  							<input class="form-control" id="enddate" name="enddate" type="date" value=""><!-- 예약선택시 입력 -->
+						</div>
+						<div class="col-md-5">
+  							<label for="">종료 시간</label>
+  							<input class="form-control" name="endhour" id="endhour" type="time" value="00:00">
+						</div>
+						<div class="col-md-1"></div>
+						<div class="col-md-10"> 
+							<div class="col-md-6">	
+  								<label for="">단체여부</label>
+  								<input class="form-control"  type="checkbox" id="group" name="group" value="true" ><!-- 예약선택시 입력 -->
+							</div>
+							<div class="col-md-6">
+  								<label for="">출타여부</label>
+  								<input class="form-control" onchange="alldaycheck()" type="checkbox" id="allDay" name="allDay" value="true" checked>
+							</div>
+						</div>
+						<div class="col-md-1"></div>
+					</div>
+		        </form>
+        </div>
 		 </div>
 	     <div class="modal-footer">
 	       <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
@@ -462,44 +684,50 @@
   
   <!-- 추가 이벤트 -->
   <div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModallable" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog " role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addEventModallable">일정 추가 </h5>
-          <button class="close form-control"   type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-		          <div class="form-group">
-		            <div class="form-row">
-		             <div class="col-md-1"></div>
-		              <div class="col-md-10">
-		               <div class="btn-group btn-group-toggle" data-toggle="buttons">
-						<label class="btn btn-danger">
+          <h5 class="modal-title" id="addEventModallable">일정추가</h5>
+             <div class="btn-group btn-group-toggle choEvent" data-toggle="buttons" style="margin-left:150px">
+						<label class="btn btn-danger radiosel">
 							<input type="radio" class="form-control" name="addeventKind" id="addeventKind" value="reserDiv"  onChange="displayonDiv()"> 환자예약 
 						</label>
-						<label class="btn btn-danger">
+						<label class="btn btn-danger radiosel">
 							<input type="radio" class="form-control" name="addeventKind" id="addeventKind" value="schDiv"  onChange="displayonDiv()"> 일정추가
 						</label>
+			</div>			
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          
+        </div>
+        <div class="modal-body">
+      
+		          <div class="form-group">
+		            <div class="form-row">
+					  <div class="col-md-1"></div>
+		              <div class="col-md-10">
+		              
 				       </div>
 		              </div>
-		             <form id="addEvent_frm" name="addEvent_frm" >
+		             <form id="addEvent_frm" name="addEvent_frm">
+		             <label for="title">일정 주제</label>
+		             <input class="form-control" id="title" name="title" type="text" placeholder="일정 제목" >
 		             <!-- 환자예약 -->
 		              <div class="reserDiv col-md-10" style='display:none;margin:auto'>
 		               <div class="row">
 		               <div class="col-md-1"></div>
 		                <div class="col-md-5">
-		              		<label for="">예약종류</label>
-		              		<select class="form-control" name="reserKind">
+		              		<label for="reserKind">예약종류</label>
+		              		<select class="form-control" name="reserKind" id="reserKind">
 								<option value="1" selected>일반예약</option>
 								<option value="2" >긴급 진료</option>
 								<option value="3" >일반 진료</option>
 		              		</select>
 		              	</div>
 		              	<div class="col-md-5">
-		              		<label for="">진료과목</label>
-		              		<select class="form-control" name="reserDepart" >
+		              		<label for="reserDepart">진료과목</label>
+		              		<select class="form-control" name="reserDepart" id="reserDepart" >
 								<option value="내과">내과</option>
 								<option value="피부과">피부과</option>
 								<option value="소아과" selected>소아과</option>
@@ -514,62 +742,92 @@
 		              	<div class="col-md-1"></div>
 		              	<div class="col-md-1"></div>
 		              	<div class="col-md-5">
-		              		<label for="">예약자명</label>
-		              		<input class="form-control" name="reserName" id="reserName" type="text" >
+		              		<label for="reserName">예약자명</label>
+		              		<input class="form-control" name="cusName" id="cusName" type="text" >
 		              		
 		              	</div>
 		              	<div class="col-md-5">
-		              		<label for="">예약자명</label>
-		              		<input class="form-control" name="reserName" id="reserName" type="text" >
+		              		<label for="">담당자명</label>
+		              		<input class="form-control" name="reserempName" id="reserempName" type="text" >
 		              	</div>
 		              	<div class="col-md-1"></div>
 		              	<div class="col-md-1"></div>
 		              	<div>
-		              		<label for="">일정 일자</label>
-		              		<input class="form-control" id="date" name="date" type="date" value=""><!-- 예약선택시 입력 -->
+		              		<label for="reserstartdate">일정 일자</label>
+		              		<input class="form-control" id="reserstartdate" name="reserstartdate" type="date" value=""><!-- 예약선택시 입력 -->
 		              	</div>
 		              	<div>
-		              		<label for="">일정 시간</label>
-		              		<input class="form-control" id="hour" name="hour" type="time" value="">
+		              		<label for="reserstarthour">일정 시간</label>
+		              		<input class="form-control" id="reserstarthour" name="reserstarthour" type="time" value="00:00">
 		              	</div>
-		              	
+		              	<div class="col-md-1"></div>
+		              	<div class="col-md-1"></div>
+		              	 <label for="comment">증상:</label>
+		              	 <textarea class="form-control" rows="3" id="condition"></textarea>
+		              	<div class="col-md-1"></div>
 		        	   </div>
 		        	   
 		              </div>
 		              <!-- 일정추가 -->
 		              <div class="schDiv col-md-10" style='display:none;margin:auto'>
 		              <div class="row">
-		                <div class="col-md-5">
-		                	
-		                </div>
-		                <div class="col-md-5">
-		                </div>
-		              </div>
-		              	<div>
-		              		<label for="">일정 일자</label>
-		              		<input id="date" class="form-control" name="date" type="date" value=""><!-- 예약선택시 입력 -->
+		              <div class="col-md-1"></div>
+		              <div class="col-md-5">
+		              		<label for="">담당자명</label>
+		              		<input class="form-control" name="reserempName" id="reserempName" type="text" >
 		              	</div>
-		              	<div>
-		              		<label for="">일정 시간</label>
-		              		<input id="hour" class="form-control" name="hour" type="date" value="">
+		              	<div class="row">
+		              	<div class="col-md-6">
+		              		<label for="">단체여부</label>
+		              		<input class="form-control"  type="checkbox" id="group" name="group" value="true" ><!-- 예약선택시 입력 -->
 		              	</div>
+		              	<div class="col-md-6">
+		              		<label for="">출타여부</label>
+		              		<input class="form-control" onchange="alldaycheck()" type="checkbox" id="allDay" name="allDay" value="true" checked>
+		              	</div>
+		              	</div>
+		              	<div class="col-md-1"></div>
+		               <div class="col-md-1"></div>
+		              	<div class="col-md-5">
+		              		<label for="">시작 일자</label>
+		              		<input class="form-control" id="schstartdate" name="schstartdate" type="date" value=""><!-- 예약선택시 입력 -->
+		              	</div >
+		              	<div class="col-md-5">
+		              		<label for="">시작 시간</label>
+		              		<input class="form-control" name="schstarthour" id="schstarthour" type="time" value="00:00">
+		              	</div>
+		              	<div class="col-md-1"></div>
+		              	<div class="col-md-1"></div>
+		              	<div class="col-md-5">
+		              		<label for="">끝나는 일자</label>
+		              		<input class="form-control" id="enddate" name="enddate" type="date" value=""><!-- 예약선택시 입력 -->
+		              	</div>
+		              	<div class="col-md-5">
+		              		<label for="">종료 시간</label>
+		              		<input class="form-control" name="endhour" id="endhour" type="time" value="00:00">
+		              	</div>
+		              	<div class="col-md-1"></div>
+		              	<div class="col-md-1"></div>
+		              	<div class="col-md-10">
+		              		<label for="">세부사항</label>
+		              		<textarea class="form-control" rows="3" id="details" name="details"></textarea>
+		              	</div>
+		              	<div class="col-md-1"></div>
+		              	 
 		              </div>
-		              
-		              
-		                
-		              
+		              </div>
 		               </form>
 		            </div>
 		          </div>
 		          <input type="hidden" value="${_csrf.token }" name="${_csrf.parameterName }">
-		          <input type="hidden" id="eventNum" value="" name="eventNum">		     
+		        		     
 		      
-		          </div>
+		          
 		        
 		    
 	       	 <div class="modal-footer">
 	          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-	          <a class="btn btn-primary" onclick="addEvent()">일정추가</a>
+	          <a class="btn btn-primary eventbutton" style="display:none" onclick="addEvent()">일정추가</a>
 	        </div>
         </div>
        
@@ -582,23 +840,7 @@
   </a>
 
   <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
+
   </div>
 
   <!-- Bootstrap core JavaScript-->
