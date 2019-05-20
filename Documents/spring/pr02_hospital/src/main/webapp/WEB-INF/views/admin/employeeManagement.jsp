@@ -64,6 +64,7 @@
 	  		   		{ className: "onclickArea", targets: "_all" },
 	  		   	]
 	  		});
+	 updatefunction()
 		});
     
   	function reloadTable(){
@@ -172,7 +173,7 @@
   	}
   	
   	//삭제 
-	function delAttribute(){
+	function delAttribute(){  
   		
   		if($("input:checkbox[class='checkoption']:checked").length>0){
 		var checkbox=$(".checkoption:checked")
@@ -197,7 +198,13 @@
   		
   	}
 </script>
+<style>
+.btn.btn-primary{
+color:white!important
+}
+ 
 
+</style>
 	
 
 </head>
@@ -273,13 +280,12 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="employeeAddModallable">직원입력</h5>
+          <h5 class="modal-title" id="employeeAddModallable">직원정보 입력</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
         <div class="modal-body">
-        	<div class="card-header">직원정보 입력</div>
 		      <div class="card-body">
 		       <form id="register_frm" name="register_frm" action="/pro/User/registeraction" method="post">
 		           <div class="form-group">
@@ -288,7 +294,7 @@
 		                  <input type="text" name="name" id="name" class="form-control" placeholder="이름" required="required" autofocus="autofocus">
 		              </div>
 		              <div class="col-md-6">
-		              	  <input type="password" name="password" id="password" class="form-control" placeholder="페스워드" required="required"> 
+		              	  <input type="password" name="password" id="password" class="form-control" placeholder="password" required="required"> 
 		              </div>
 		            </div>
 		          </div>
@@ -297,15 +303,15 @@
 		              <div class="col-md-6">
 		                  <input type="date" name="birth" id="birth" class="form-control"  required="required" >
 		              </div>
+		               <div class="col-md-6">
+		                  <input type="text" name="phone" id="phone" class="form-control" placeholder="핸드폰번호" required="required">
+		              </div>
 		            </div>
 		          </div>
 		           <div class="form-group">
 		            <div class="form-row">
 		              <div class="col-md-6">
-		                  <input type="text" name="phone" id="phone" class="form-control" placeholder="핸드폰번호" required="required">
-		              </div>
-		              <div class="col-md-3">
-		              	<select name="position">
+		              	<select name="position" class="form-control" >
 							<option value="원장">원장</option>
 							<option value="전문의" selected>전문의</option>
 							<option value="보조의사">보조의사</option>
@@ -315,8 +321,8 @@
 							<option value="인턴">인턴</option> 
 		              	</select>
 		              </div>
-		              <div class="col-md-3">
-		              	<select name="department">
+		              <div class="col-md-6">
+		              	<select name="department" class="form-control" >
 							<option value="내과">내과</option>
 							<option value="피부과">피부과</option>
 							<option value="소아과" selected>소아과</option>
@@ -343,8 +349,9 @@
 		      </div>
 		    </div>
 	       	 <div class="modal-footer">
+	       	  <a class="btn btn-primary" onclick="addAttribute()">입력</a>
 	          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-	          <a class="btn btn-primary" onclick="addAttribute()">입력</a>
+	         
 	        </div>
         </div>
        
@@ -401,7 +408,7 @@
 							<option value="원장">원장</option>
 							<option value="전문의" selected>전문의</option>
 							<option value="보조의사">보조의사</option>
-							<option value="간호사">간호사</option>
+							<option value="간호사">간호사</option>   
 							<option value="간호조무사">간호조무사</option>
 							<option value="알바">알바</option>
 							<option value="인턴">인턴</option> 
@@ -426,9 +433,9 @@
 		          </div>
 		           <div class="form-group">
 		            <div class="form-row">
-		            <div class="col-md-1"></div>
+		            <div class="col-md-1"></div>   
 		                <div class="col-md-5">
-		                   <label for="viewPhone">전화번호</label>
+		                   <label for="viewPhone">전화번호</label>  
 		                 <input name="phone" class="form-control" id='viewPhone' type="text" value=""></input>
 		              </div>
 		              <div class="col-md-1"></div>
@@ -469,8 +476,8 @@
 		        
 		    
 	       	 <div class="modal-footer">
+	       	 <a class="btn btn-primary" onclick="updateAttribute()">변경</a>
 	          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-	          <a class="btn btn-primary" onclick="updateAttribute()">변경</a>
 	        </div>
         </div>
        

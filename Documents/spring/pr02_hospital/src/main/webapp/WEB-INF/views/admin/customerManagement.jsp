@@ -205,7 +205,13 @@
 
 
 </script>
-	
+<style>
+	.btn.btn-primary{
+	color:white!important
+	}
+ 
+
+</style>
 
 </head>
 
@@ -304,17 +310,16 @@
 		              <div class="col-md-6">
 		                  <input type="date" name="birth" id="birth" class="form-control"  required="required" >
 		              </div>
-		            </div>
-		          </div>
-		           <div class="form-group">
-		            <div class="form-row">
 		              <div class="col-md-6">
 		                  <input type="text" name="phone" id="phone" class="form-control" placeholder="핸드폰번호" required="required">
 		              </div>
-		              <div class="col-md-3">
+
+		              <div class="col-md-2">
+		              	  <label class="control-label" for=""> sns 찬성</label>
 		                  <input type="radio" name="sns" id="sns" class="form-control"  required="required" value="안함" >
 		              </div>
-		              <div class="col-md-3">
+		              <div class="col-md-2">
+		         	     <label class="control-label" for=""> sns 거부</label>
 		                  <input type="radio" name="sns" id="sns" class="form-control"  required="required" value="함" checked="" >
 		              </div>
 		            </div>
@@ -438,8 +443,9 @@
 		        
 		    
 	       	 <div class="modal-footer">
-	          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
 	          <a class="btn btn-primary" onclick="updateAttribute()">변경</a>
+	          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+	         
 	        </div>
         </div>
        
